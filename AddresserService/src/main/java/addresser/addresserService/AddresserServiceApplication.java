@@ -1,4 +1,4 @@
-package addresser.AddresserService;
+package addresser.addresserService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
