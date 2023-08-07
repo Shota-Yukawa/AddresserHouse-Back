@@ -1,4 +1,4 @@
-package com.ah.baseInfo;
+package com.ah.residence;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

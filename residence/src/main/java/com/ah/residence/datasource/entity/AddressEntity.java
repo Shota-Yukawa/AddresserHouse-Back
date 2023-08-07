@@ -1,4 +1,4 @@
-package com.ah.baseInfo.datasource.entity;
+package com.ah.residence.datasource.entity;
 
 import jakarta.persistence.*;
 
