@@ -40,10 +40,10 @@ public class AddressEntity {
     @Column(name = "street")
     private String street;
 
-    @Column(name = "Street_kana")
+    @Column(name = "street_kana")
     private String streetKana;
 
-    @Column(name = "Street_en")
+    @Column(name = "street_en")
     private String streetEn;
 
     @Column(name = "landmark")
