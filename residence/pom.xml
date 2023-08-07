@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>addresser</groupId>
-	<artifactId>baseInfo</artifactId>
+	<artifactId>residence</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>baseInfo</name>
-	<description>addresser house  base info service for Spring Boot</description>
+	<name>residence</name>
+	<description>addresser house residence service for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
