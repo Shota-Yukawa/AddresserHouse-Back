@@ -4,3 +4,20 @@ spring:
     username: base_info
     password: base_info
     driverClassName: org.postgresql.Driver
+  jackson:
+   time-zone: Asia/Tokyo
+
+server:
+  port: 8081
+  
+logging:
+  level:
+    org: 
+      hibernate:
+        SQL: debug
+      type:
+        descriptor:
+          sql: trace
+      springframework:
+        orm:
+          jpa: DEBUG
