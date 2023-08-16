@@ -12,15 +12,15 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class AddresserResidenceReq {
 
-	@JsonProperty("addressser_residence.consumer_id")
+	@JsonProperty("addresser_residence.consumer_id")
 	private Integer consumerId;
 
-	@JsonProperty("addressser_residence.addresser_id")
+	@JsonProperty("addresser_residence.addresser_id")
 	private Integer addresserId;
 
-	@JsonProperty("addressser_residence.address_id")
+	@JsonProperty("addresser_residence.address_id")
 	private Integer addressId;
 
-	@JsonProperty("addressser_residence.after_street")
+	@JsonProperty("addresser_residence.after_streat")
 	private String afterStreet;
 }

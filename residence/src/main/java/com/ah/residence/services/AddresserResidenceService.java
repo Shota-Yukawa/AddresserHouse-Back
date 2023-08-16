@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ah.residence.datasource.entity.AddresserResidencesEntity;
 import com.ah.residence.datasource.repository.AddresserResidencesRepository;
@@ -16,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(rollbackFor = Exception.class)
 public class AddresserResidenceService {
 	private final AddresserResidencesRepository rep;
 	private final ModelMapper modelMapper;
