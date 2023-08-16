@@ -9,7 +9,7 @@ import com.ah.residence.datasource.entity.AddresserResidencesEntity;
 import com.ah.residence.datasource.repository.AddresserResidencesRepository;
 import com.ah.residence.exception.ResidenceException;
 import com.ah.residence.models.req.AddresserResidenceReq;
-import com.ah.residence.models.res.AddresserResidenceIdRes;
+import com.ah.residence.models.res.AddresserResidenceRes;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,13 +24,13 @@ public class AddresserResidenceService {
 	 * 
 	 * @param reqBody AddresserResidenceReq型の登録データ
 	 */
-	public AddresserResidenceIdRes create(AddresserResidenceReq reqBody) {
+	public AddresserResidenceRes create(AddresserResidenceReq reqBody) {
 		// リクエストをEntityにマッピング
 		AddresserResidencesEntity reqEntity = modelMapper.map(reqBody, AddresserResidencesEntity.class);
 		// 登録処理
 		reqEntity = rep.save(reqEntity);
 		// レスポンスの定義
-		AddresserResidenceIdRes resDto = new AddresserResidenceIdRes();
+		AddresserResidenceRes resDto = new AddresserResidenceRes();
 		resDto.setAddressserResidenceId(reqEntity.getAddresserResidenceId());
 		return resDto;
 	}
@@ -43,16 +43,24 @@ public class AddresserResidenceService {
 	 * @return
 	 * @throws ResidenceException
 	 */
-	public AddresserResidenceIdRes update(Integer targetId, AddresserResidenceReq reqBody) throws ResidenceException {
+	public AddresserResidenceRes update(Integer targetId, AddresserResidenceReq reqBody) throws ResidenceException {
 
 		Optional<AddresserResidencesEntity> entityOpt = rep.findById(targetId);
 		if (entityOpt.isPresent()) {
 			modelMapper.map(reqBody, entityOpt.get());
 			AddresserResidencesEntity resEntity = rep.save(entityOpt.get());
-			return modelMapper.map(resEntity, AddresserResidenceIdRes.class);
+			return modelMapper.map(resEntity, AddresserResidenceRes.class);
 		} else {
 			throw new ResidenceException("該当のデータがありません。");
 		}
+	}
 
+	public void delete(Integer targetId) throws ResidenceException {
+		Optional<AddresserResidencesEntity> entityOpt = rep.findById(targetId);
+		if (entityOpt.isPresent()) {
+			rep.deleteById(targetId);
+		} else {
+			throw new ResidenceException("該当のデータがありません。");
+		}
 	}
 }

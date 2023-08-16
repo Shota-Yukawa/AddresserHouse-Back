@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class AddresserResidenceIdRes {
+public class AddresserResidenceRes {
 
 	@JsonProperty("addressser_residence.id")
 	private Integer addressserResidenceId;
