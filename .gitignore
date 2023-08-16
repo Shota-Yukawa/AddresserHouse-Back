@@ -3,3 +3,4 @@
 *.zshrc
 *.DS_Store
 *.gitignore
+*.project
