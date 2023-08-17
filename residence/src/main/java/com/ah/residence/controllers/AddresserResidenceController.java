@@ -23,6 +23,12 @@ public class AddresserResidenceController {
 
 	private final AddresserResidenceService addresserResidenceService;
 
+	/**
+	 * 登録用リクエストマッピング
+	 * 
+	 * @param reqBody CommonReq
+	 * @return
+	 */
 	@PostMapping("add")
 	public AddresserResidenceRes addAddresserResidence(@RequestBody CommonReq reqBody) {
 		return addresserResidenceService
@@ -30,6 +36,13 @@ public class AddresserResidenceController {
 
 	}
 
+	/**
+	 * 更新用リクエストマッピング
+	 * 
+	 * @param reqBody CommonReq
+	 * @return 登録後のデータ
+	 * @throws ResidenceException
+	 */
 	@PutMapping("update")
 	public AddresserResidenceRes updateAddresserResidence(@RequestBody CommonReq reqBody) throws ResidenceException {
 		Integer targetId = reqBody.getId();
@@ -37,6 +50,12 @@ public class AddresserResidenceController {
 				JsonConverter.deserializeJson(reqBody.getData(), AddresserResidenceReq.class));
 	}
 
+	/**
+	 * 削除用リクエストマッピング
+	 * 
+	 * @param reqBody CommonReq
+	 * @throws ResidenceException
+	 */
 	@DeleteMapping("delete")
 	public void deleteAddresserResidence(@RequestBody CommonReq reqBody) throws ResidenceException {
 		Integer targetId = reqBody.getId();

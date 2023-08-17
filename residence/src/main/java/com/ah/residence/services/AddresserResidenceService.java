@@ -38,29 +38,33 @@ public class AddresserResidenceService {
 	/**
 	 * addresserResidenceテーブルの更新用メソッド
 	 * 
-	 * @param targetId addresser_residence_id(主キー)
+	 * @param targetId 更新対象のaddresser_residence_id(主キー)
 	 * @param reqBody  AddresserResidenceReq型の更新データ
 	 * @return
-	 * @throws ResidenceException
+	 * @throws ResidenceException 該当データなし
 	 */
 	public AddresserResidenceRes update(Integer targetId, AddresserResidenceReq reqBody) throws ResidenceException {
-
+		// targetIdをもとに検索をかける
 		Optional<AddresserResidencesEntity> entityOpt = rep.findById(targetId);
+
 		if (entityOpt.isPresent()) {
+			// 結果があれば、reqBodyをマッピング
 			modelMapper.map(reqBody, entityOpt.get());
 			AddresserResidencesEntity resEntity = rep.save(entityOpt.get());
 			return modelMapper.map(resEntity, AddresserResidenceRes.class);
 		} else {
-			throw new ResidenceException("該当のデータがありません。");
+			throw new ResidenceException("該当の居住データがありません。");
 		}
 	}
 
 	public void delete(Integer targetId) throws ResidenceException {
+		// targetIdをもとに検索をかける
 		Optional<AddresserResidencesEntity> entityOpt = rep.findById(targetId);
 		if (entityOpt.isPresent()) {
+			// 結果があれば削除
 			rep.deleteById(targetId);
 		} else {
-			throw new ResidenceException("該当のデータがありません。");
+			throw new ResidenceException("該当の居住データがありません。");
 		}
 	}
 }
