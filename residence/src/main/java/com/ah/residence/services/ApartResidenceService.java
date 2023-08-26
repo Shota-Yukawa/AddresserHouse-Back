@@ -1,7 +1,5 @@
 package com.ah.residence.services;
 
-import java.util.Optional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -45,28 +43,25 @@ public class ApartResidenceService {
 	 * @return
 	 * @throws ResidenceException 該当データなし
 	 */
-	public ApartResidenceRes update(Integer targetId, ApartResidenceReq reqbody) throws ResidenceException {
-		// targetIdをもとに検索をかける
-		Optional<ApartResidencesEntity> entityOpt = rep.findById(targetId);
-
-		if (entityOpt.isPresent()) {
-			// 結果があれば、reqBodyをマッピング
-			modelMapper.map(reqbody, entityOpt.get());
-			ApartResidencesEntity resEntity = rep.save(entityOpt.get());
-			return modelMapper.map(resEntity, ApartResidenceRes.class);
-		} else {
-			throw new ResidenceException("該当の居住データがありません");
-		}
+	public ApartResidenceRes update(Integer targetId, ApartResidenceReq reqBody) throws ResidenceException {
+		// リクエストをEntityにマッピング
+		ApartResidencesEntity reqEntity = modelMapper.map(reqBody, ApartResidencesEntity.class);
+		// IDをセット
+		reqEntity.setApartResidenceId(targetId);
+		// 更新処理
+		reqEntity = rep.save(reqEntity);
+		// レスポンスの定義
+		return modelMapper.map(reqEntity, ApartResidenceRes.class);
 	}
 
+	/**
+	 * apart_residencesテーブルへの削除用メソッド
+	 * 
+	 * @param targetId
+	 * @throws ResidenceException
+	 */
 	public void delete(Integer targetId) throws ResidenceException {
-		// targetIdをもとに検索をかける
-		Optional<ApartResidencesEntity> entityOpt = rep.findById(targetId);
-		if (entityOpt.isPresent()) {
-			// 結果があれば削除
-			rep.deleteById(targetId);
-		} else {
-			throw new ResidenceException("該当の居住データがありません。");
-		}
+		// 削除処理
+		rep.deleteById(targetId);
 	}
 }

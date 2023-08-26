@@ -1,7 +1,5 @@
 package com.ah.residence.services;
 
-import java.util.Optional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -44,27 +42,23 @@ public class AddresserResidenceService {
 	 * @throws ResidenceException 該当データなし
 	 */
 	public AddresserResidenceRes update(Integer targetId, AddresserResidenceReq reqBody) throws ResidenceException {
-		// targetIdをもとに検索をかける
-		Optional<AddresserResidencesEntity> entityOpt = rep.findById(targetId);
-
-		if (entityOpt.isPresent()) {
-			// 結果があれば、reqBodyをマッピング
-			modelMapper.map(reqBody, entityOpt.get());
-			AddresserResidencesEntity resEntity = rep.save(entityOpt.get());
-			return modelMapper.map(resEntity, AddresserResidenceRes.class);
-		} else {
-			throw new ResidenceException("該当の居住データがありません。");
-		}
+		// リクエストをEntityにマッピング
+		AddresserResidencesEntity reqEntity = modelMapper.map(reqBody, AddresserResidencesEntity.class);
+		reqEntity.setAddresserResidenceId(targetId);
+		// 登録処理
+		reqEntity = rep.save(reqEntity);
+		// レスポンスの定義
+		return modelMapper.map(reqEntity, AddresserResidenceRes.class);
 	}
 
+	/**
+	 * addresser_residencesテーブルへの削除メソッド
+	 * 
+	 * @param targetId
+	 * @throws ResidenceException
+	 */
 	public void delete(Integer targetId) throws ResidenceException {
-		// targetIdをもとに検索をかける
-		Optional<AddresserResidencesEntity> entityOpt = rep.findById(targetId);
-		if (entityOpt.isPresent()) {
-			// 結果があれば削除
-			rep.deleteById(targetId);
-		} else {
-			throw new ResidenceException("該当の居住データがありません。");
-		}
+		// 削除処理
+		rep.deleteById(targetId);
 	}
 }
