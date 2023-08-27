@@ -1,13 +1,13 @@
-package addresser.ApartOwner;
+package com.ah.apartowner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApartOwnerApplication {
+public class ApartownerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApartOwnerApplication.class, args);
+		SpringApplication.run(ApartownerApplication.class, args);
 	}
 
 }
