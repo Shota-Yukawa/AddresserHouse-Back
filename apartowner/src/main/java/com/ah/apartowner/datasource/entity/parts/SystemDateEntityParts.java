@@ -1,4 +1,4 @@
-package com.ah.apartowner.models.entity.parts;
+package com.ah.apartowner.datasource.entity.parts;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

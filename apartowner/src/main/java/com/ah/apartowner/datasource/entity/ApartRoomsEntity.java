@@ -1,4 +1,4 @@
-package com.ah.apartowner.models.entity;
+package com.ah.apartowner.datasource.entity;
 
 import java.util.List;
 

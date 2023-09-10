@@ -1,9 +1,9 @@
-package com.ah.apartowner.models.entity;
+package com.ah.apartowner.datasource.entity;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import com.ah.apartowner.models.entity.parts.SystemDateEntityParts;
+import com.ah.apartowner.datasource.entity.parts.SystemDateEntityParts;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

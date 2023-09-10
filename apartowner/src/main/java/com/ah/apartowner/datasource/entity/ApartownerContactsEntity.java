@@ -1,4 +1,4 @@
-package com.ah.apartowner.models.entity;
+package com.ah.apartowner.datasource.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
