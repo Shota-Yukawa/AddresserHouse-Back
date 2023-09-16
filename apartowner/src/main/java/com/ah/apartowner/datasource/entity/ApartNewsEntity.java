@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,11 +23,12 @@ import lombok.EqualsAndHashCode;
 @Table(name = "apart_news")
 @Data
 @EqualsAndHashCode(callSuper = false)
+@SequenceGenerator(name = "pkey_seq", sequenceName = "apart_news_apart_news_id_seq", allocationSize = 1)
 public class ApartNewsEntity extends SystemDateEntityParts {
 
 	@Id
 	@Column(name = "apart_news_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pkey_seq")
 	private Integer apartNewsId;
 
 	@ManyToOne

@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,11 +16,12 @@ import lombok.EqualsAndHashCode;
 @Table(name = "apart_news_contents")
 @Data
 @EqualsAndHashCode(callSuper = false)
+@SequenceGenerator(name = "pkey_seq", sequenceName = "apart_news_contents_apart_news_content_id_seq", allocationSize = 1)
 public class ApartNewsContentsEntity {
 
 	@Id
 	@Column(name = "apart_news_content_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pkey_seq")
 	private Integer apartNewsContentId;
 
 	@OneToOne

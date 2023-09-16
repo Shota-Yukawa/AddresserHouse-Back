@@ -2,6 +2,8 @@ package com.ah.apartowner.datasource.entity;
 
 import java.util.List;
 
+import com.ah.apartowner.datasource.entity.parts.SystemDateEntityParts;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,19 +11,21 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "apartowner")
+@Table(name = "apartowners")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ApartownersEntity {
+@SequenceGenerator(name = "pkey_seq", sequenceName = "apartowners_apartowner_id_seq", allocationSize = 1)
+public class ApartownersEntity extends SystemDateEntityParts {
 
 	@Id
 	@Column(name = "apartowner_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pkey_seq")
 	private Integer apartownerId;
 
 	@Column(name = "apartowner_name", nullable = false)
@@ -37,7 +41,7 @@ public class ApartownersEntity {
 	private String phoneNumber;
 
 	@Column(name = "max_user", nullable = false)
-	private int macuser = 5;
+	private int maxUser = 5;
 
 	@Column(name = "post_code")
 	private String postCode;

@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,11 +16,12 @@ import lombok.EqualsAndHashCode;
 @Table(name = "apartowner_contacts")
 @Data
 @EqualsAndHashCode(callSuper = false)
+@SequenceGenerator(name = "pkey_seq", sequenceName = "apartowner_contacts_apartowner_contact_id_seq", allocationSize = 1)
 public class ApartownerContactsEntity {
 
 	@Id
-	@Column(name = "apartowner_contacts_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "apartowner_contact_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pkey_seq")
 	private Integer apartownerContactsId;
 
 	@OneToOne
