@@ -9,7 +9,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ApartownerRes {
 
-	@JsonProperty("apartowner.apartowner_")
+	@JsonProperty("apartowner.apartowner_id")
 	private Integer apartownerId;
 
 	@JsonProperty("apartowner.apartowner_name")

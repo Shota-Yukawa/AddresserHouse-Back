@@ -24,12 +24,9 @@ public class ApartownerController {
 
 	@PostMapping("regist")
 	public ApartownerRes registApartowner(@RequestBody CommonReq reqBody) {
-
-		Integer id = reqBody.getId();
-		if (id != null) {
+		if (reqBody.getId() != null) {
 			new AapartownerException("登録リクエストにidが指定されています。");
 		}
-
 		return apartownerService.regist(JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class));
 	}
 

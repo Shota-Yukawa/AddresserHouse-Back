@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url:  jdbc:postgresql://localhost:5432/apartowner
+    url:  jdbc:postgresql://ah-postgres.cotg2onn7xlt.ap-northeast-1.rds.amazonaws.com:5432/apartowner
     username: apartowner
     password: apartowner
     driverClassName: org.postgresql.Driver
@@ -24,3 +24,6 @@ logging:
       springframework:
         orm:
           jpa: DEBUG
+
+tablesync:
+  url: http://localhost:8080/table_sync
