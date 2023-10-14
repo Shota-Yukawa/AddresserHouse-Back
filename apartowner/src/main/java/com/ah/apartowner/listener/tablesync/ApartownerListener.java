@@ -1,9 +1,9 @@
-package com.ah.apartowner.listener;
+package com.ah.apartowner.listener.tablesync;
 
 import com.ah.apartowner.datasource.entity.ApartownersEntity;
-import com.ah.apartowner.tablesync.bean.TableSyncRequestBean;
-import com.ah.apartowner.tablesync.rest.RequestService;
-import com.ah.apartowner.tablesync.util.EntityUtil;
+import com.ah.tableSyncLib.bean.TableSyncRequestBean;
+import com.ah.tableSyncLib.rest.RequestService;
+import com.ah.tableSyncLib.util.EntityUtil;
 
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PostRemove;

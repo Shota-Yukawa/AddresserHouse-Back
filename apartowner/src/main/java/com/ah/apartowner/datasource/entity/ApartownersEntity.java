@@ -3,7 +3,7 @@ package com.ah.apartowner.datasource.entity;
 import java.util.List;
 
 import com.ah.apartowner.datasource.entity.parts.SystemDateEntityParts;
-import com.ah.apartowner.listener.ApartownerListener;
+import com.ah.apartowner.listener.tablesync.ApartownerListener;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
