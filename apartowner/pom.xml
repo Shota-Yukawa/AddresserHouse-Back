@@ -59,24 +59,26 @@
 			<version>3.1.0</version>
 			<scope>test</scope>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.9.3</version> <!-- 最新のバージョンに置き換える -->
+			<version>5.9.3</version> 
 			<scope>test</scope>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>3.1.0</version> 
 		</dependency>
 		<dependency>
-			<groupId>com.ah</groupId>
+			<groupId>com.ah.tablesynclib</groupId>
 			<artifactId>tableSyncLib</artifactId>
 			<version>0.0.1-SNAPSHOT</version> 
 		</dependency>
 	</dependencies>
-
+<!--
 	<build>
 		<plugins>
 			<plugin>
@@ -93,5 +95,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
+-->
 </project>
