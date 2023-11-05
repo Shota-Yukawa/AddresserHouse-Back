@@ -43,7 +43,7 @@ public class ApartmentsEntity extends SystemDateEntityParts {
 	@Column(name = "number_of_room")
 	private int numOfRoom;
 
-	@Column(name = "number_of_floot")
+	@Column(name = "number_of_floor")
 	private int numOfFloor;
 
 	@Column(name = "build_on")
@@ -52,7 +52,7 @@ public class ApartmentsEntity extends SystemDateEntityParts {
 	@Column(name = "post_code")
 	private String postCode;
 
-	@Column(name = "adrresss_id", nullable = false)
+	@Column(name = "address_id", nullable = false)
 	private Integer addressId;
 
 	@Column(name = "after_street")

@@ -28,10 +28,10 @@ public class ApartownerContactsEntity {
 	@JoinColumn(name = "apartowner_id", referencedColumnName = "apartowner_id")
 	private ApartownersEntity apartowner;
 
-	@Column(name = "con_phone", nullable = false)
+	@Column(name = "can_phone", nullable = false)
 	private boolean canPhone;
 
-	@Column(name = "con_mail", nullable = false)
+	@Column(name = "can_mail", nullable = false)
 	private boolean canMail;
 
 	@Column(name = "can_chat", nullable = false)
