@@ -1,5 +1,8 @@
 package com.ah.apartowner.models.response;
 
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -32,4 +35,12 @@ public class ApartownerRes {
 
 	@JsonProperty("apartowner.after_street")
 	private String afterStreet;
+	
+	@JsonProperty("apartowner.regist_at")
+	@JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss.SSS")
+	private LocalDateTime registAt;
+	
+	@JsonProperty("apartowner.update_at")
+	@JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss.SSS")
+	private LocalDateTime updateAt;
 }

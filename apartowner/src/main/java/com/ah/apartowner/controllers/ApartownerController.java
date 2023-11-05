@@ -1,7 +1,9 @@
 package com.ah.apartowner.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import java.util.Objects;
+
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,14 +26,28 @@ public class ApartownerController {
 
 	@PostMapping("regist")
 	public ApartownerRes registApartowner(@RequestBody CommonReq reqBody) {
-		if (reqBody.getId() != null) {
-			new AapartownerException("登録リクエストにidが指定されています。");
+		if (Objects.nonNull(reqBody.getId())) {
+			new AapartownerException("登録リクエストに主キーが指定されています。");
 		}
 		return apartownerService.regist(JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class));
 	}
+	
+	@PutMapping("update")
+	public ApartownerRes updateApartowner(@RequestBody CommonReq reqBody) {
+		if(Objects.isNull(reqBody.getId())) {
+			new AapartownerException("更新リクエストに主キーが指定されていません。対象データをしぼれません。");
+		}
+		ApartownerReq reqData = JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
+		reqData.setApartownerId(reqBody.getId());
+		return apartownerService.update(reqData);
+	}
 
-	@GetMapping("test")
-	public String test() {
-		return "success";
+	@PostMapping("test")
+	public ApartownerReq test(@RequestBody CommonReq reqBody) {
+		
+		ApartownerReq req = JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
+
+//		return apartownerService.test(req, reqBody.getId());
+		return req;
 	}
 }

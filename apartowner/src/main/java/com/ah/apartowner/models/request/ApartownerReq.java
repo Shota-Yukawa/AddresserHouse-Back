@@ -11,6 +11,8 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ApartownerReq {
+	
+	private Integer apartownerId;
 
 	@JsonProperty("apartowner.apartowner_name")
 	private String apartownerName;
