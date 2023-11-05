@@ -24,6 +24,12 @@ public class ApartownerController {
 
 	private final AapartownerService apartownerService;
 
+	/**
+	 * ~/apartowner/regist<br>
+	 * apartownerの登録リクエスト取得
+	 * @param reqBody
+	 * @return
+	 */
 	@PostMapping("regist")
 	public ApartownerRes registApartowner(@RequestBody CommonReq reqBody) {
 		if (Objects.nonNull(reqBody.getId())) {
@@ -32,6 +38,12 @@ public class ApartownerController {
 		return apartownerService.regist(JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class));
 	}
 	
+	/**
+	 * ~/apartowner/update<br>
+	 * apartownerの更新リクエスト取得
+	 * @param reqBody
+	 * @return
+	 */
 	@PutMapping("update")
 	public ApartownerRes updateApartowner(@RequestBody CommonReq reqBody) {
 		if(Objects.isNull(reqBody.getId())) {
@@ -42,12 +54,4 @@ public class ApartownerController {
 		return apartownerService.update(reqData);
 	}
 
-	@PostMapping("test")
-	public ApartownerReq test(@RequestBody CommonReq reqBody) {
-		
-		ApartownerReq req = JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
-
-//		return apartownerService.test(req, reqBody.getId());
-		return req;
-	}
 }

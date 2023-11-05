@@ -49,7 +49,7 @@ public class AapartownerService {
 	
 	/**
 	 * aprtownersテーブルへの登録処理<br>
-	 * 全カラムの登録
+	 * 全カラムの更新
 	 * @param reqData
 	 * @return
 	 */
