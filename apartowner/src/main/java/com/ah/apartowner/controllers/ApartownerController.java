@@ -1,5 +1,8 @@
 package com.ah.apartowner.controllers;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +26,10 @@ import lombok.RequiredArgsConstructor;
 public class ApartownerController {
 
 	private final AapartownerService apartownerService;
+	
+	public final static String TABLENAME = "apartowners";
+	public final static String PKCOLUMNNAME = "apartowner_id";
+	public final static String PKPROPERTY = TABLENAME + "." + PKCOLUMNNAME;
 
 	/**
 	 * ~/apartowner/regist<br>
@@ -54,4 +61,13 @@ public class ApartownerController {
 		return apartownerService.update(reqData);
 	}
 
+	@PutMapping("update/parts")
+	public List<Map<String, Object>> updatePartsApartowner(@RequestBody List<Map<String, Object>> reqBody) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		if(!reqBody.stream().allMatch(reqData->reqData.containsKey(PKPROPERTY))) {
+			new AapartownerException("更新リクエストに主キーが指定されていません。対象データをしぼれません。");
+		}
+//		return apartownerService.updatePart(reqBody);
+		return apartownerService.updatePart(reqBody);
+	}
+	
 }
