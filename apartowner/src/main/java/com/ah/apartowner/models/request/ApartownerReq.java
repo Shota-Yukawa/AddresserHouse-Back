@@ -14,24 +14,24 @@ public class ApartownerReq {
 	
 	private Integer apartownerId;
 
-	@JsonProperty("apartowner.apartowner_name")
+	@JsonProperty("apartowners.apartowner_name")
 	private String apartownerName;
 
-	@JsonProperty("apartowner.apartowner_name_kane")
+	@JsonProperty("apartowners.apartowner_name_kane")
 	private String apartownerNameKana;
 
-	@JsonProperty("apartowner.email")
+	@JsonProperty("apartowners.email")
 	private String email;
 
-	@JsonProperty("apartowner.phone_number")
+	@JsonProperty("apartowners.phone_number")
 	private String phoneNumber;
 
-	@JsonProperty("apartowner.post_code")
+	@JsonProperty("apartowners.post_code")
 	private String postCode;
 
-	@JsonProperty("apartowner.address_id")
+	@JsonProperty("apartowners.address_id")
 	private Integer addressId;
 
-	@JsonProperty("apartowner.after_street")
+	@JsonProperty("apartowners.after_street")
 	private String afterStreet;
 }

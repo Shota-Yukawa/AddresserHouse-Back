@@ -12,35 +12,35 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ApartownerRes {
 
-	@JsonProperty("apartowner.apartowner_id")
+	@JsonProperty("apartowners.apartowner_id")
 	private Integer apartownerId;
 
-	@JsonProperty("apartowner.apartowner_name")
+	@JsonProperty("apartowners.apartowner_name")
 	private String apartownerName;
 
-	@JsonProperty("apartowner.apartowner_name_kane")
+	@JsonProperty("apartowners.apartowner_name_kane")
 	private String apartownerNameKana;
 
-	@JsonProperty("apartowner.email")
+	@JsonProperty("apartowners.email")
 	private String email;
 
-	@JsonProperty("apartowner.phone_number")
+	@JsonProperty("apartowners.phone_number")
 	private String phoneNumber;
 
-	@JsonProperty("apartowner.post_code")
+	@JsonProperty("apartowners.post_code")
 	private String postCode;
 
-	@JsonProperty("apartowner.address_id")
+	@JsonProperty("apartowners.address_id")
 	private Integer addressId;
 
-	@JsonProperty("apartowner.after_street")
+	@JsonProperty("apartowners.after_street")
 	private String afterStreet;
 	
-	@JsonProperty("apartowner.regist_at")
+	@JsonProperty("apartowners.regist_at")
 	@JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss.SSS")
 	private LocalDateTime registAt;
 	
-	@JsonProperty("apartowner.update_at")
+	@JsonProperty("apartowners.update_at")
 	@JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss.SSS")
 	private LocalDateTime updateAt;
 }
