@@ -17,7 +17,7 @@ import com.ah.apartowner.models.request.ApartownerReq;
 import com.ah.apartowner.models.request.CommonReq;
 import com.ah.apartowner.models.response.ApartownerRes;
 import com.ah.apartowner.services.AapartownerService;
-import com.ah.apartowner.util.JsonConverter;
+import com.ah.commonlib.JsonConverter;
 
 import lombok.RequiredArgsConstructor;
 

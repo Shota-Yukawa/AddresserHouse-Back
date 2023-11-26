@@ -18,7 +18,7 @@ import com.ah.apartowner.datasource.repository.ApartownerRepository;
 import com.ah.apartowner.exception.AapartownerException;
 import com.ah.apartowner.models.request.ApartownerReq;
 import com.ah.apartowner.models.response.ApartownerRes;
-import com.ah.apartowner.util.StringConverter;
+import com.ah.commonlib.StringConverter;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
