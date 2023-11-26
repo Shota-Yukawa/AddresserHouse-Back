@@ -95,19 +95,15 @@ public class AapartownerService {
 		return res;
 	}
 
-
 	/**
 	 * 特定項目のみの更新用メソッド<br>
 	 * リクエストにあるjson propertyから、カラム名を作り、Eintyにセットして更新する。<br>
 	 * 上記のupdate()と同じにしてもいいかも。
 	 * @param reqBody
 	 * @return
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
 	 */
 	@Transactional
-	public List<Map<String, Object>> updatePart(List<Map<String, Object>> reqBody){
+	public List<Map<String, Object>> updatePart(List<Map<String, Object>> reqBody) {
 
 		//リクエストjsonのプロパティを項目（カラム）名だけにして、値とMapにする。
 		List<Map<String, Object>> updateDataList = reqBody
@@ -145,5 +141,20 @@ public class AapartownerService {
 			rep.save(updateEntityOpt.get());
 		}
 		return null;
+	}
+
+	public ApartownerRes delete(Integer reqid) {
+		//TODO queryへ検索
+		Optional<ApartownersEntity> select = rep.findById(reqid);
+
+		if (select.isEmpty()) {
+			throw new AapartownerException("指定されたidの削除対象のデータが存在しません。");
+		}
+		rep.delete(select.get());
+
+		// レスポンス
+		ApartownerRes res = new ApartownerRes();
+		res.setApartownerId(reqid);
+		return res;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,4 +71,12 @@ public class ApartownerController {
 		return apartownerService.updatePart(reqBody);
 	}
 	
+	@DeleteMapping("delete")
+	public ApartownerRes deleteApartowner(@RequestBody CommonReq reqBody) {
+		if (Objects.isNull(reqBody.getId())) {
+			throw new AapartownerException("削除クエストに主キーが指定されていません。対象データをしぼれません。");
+		}
+		
+		return apartownerService.delete(reqBody.getId());
+	}
 }
