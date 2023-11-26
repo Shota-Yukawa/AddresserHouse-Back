@@ -143,6 +143,11 @@ public class AapartownerService {
 		return null;
 	}
 
+	/**
+	 * apartownerテーブルへの削除処理
+	 * @param reqid
+	 * @return
+	 */
 	public ApartownerRes delete(Integer reqid) {
 		//TODO queryへ検索
 		Optional<ApartownersEntity> select = rep.findById(reqid);

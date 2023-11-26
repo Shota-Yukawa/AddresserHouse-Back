@@ -41,7 +41,7 @@ public class ApartownerController {
 	@PostMapping("regist")
 	public ApartownerRes registApartowner(@RequestBody CommonReq reqBody) {
 		if (Objects.nonNull(reqBody.getId())) {
-			new AapartownerException("登録リクエストに主キーが指定されています。");
+			throw new AapartownerException("登録リクエストに主キーが指定されています。");
 		}
 		return apartownerService.regist(JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class));
 	}
@@ -55,22 +55,36 @@ public class ApartownerController {
 	@PutMapping("update")
 	public ApartownerRes updateApartowner(@RequestBody CommonReq reqBody) {
 		if(Objects.isNull(reqBody.getId())) {
-			new AapartownerException("更新リクエストに主キーが指定されていません。対象データをしぼれません。");
+			throw new AapartownerException("更新リクエストに主キーが指定されていません。対象データをしぼれません。");
 		}
 		ApartownerReq reqData = JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
 		reqData.setApartownerId(reqBody.getId());
 		return apartownerService.update(reqData);
 	}
 
+	/**
+	 * ~/apartowner/update/parts<br>
+	 * apartownerの部分項目更新リクエスト取得
+	 * @param reqBody
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 * @throws NoSuchMethodException
+	 */
 	@PutMapping("update/parts")
 	public List<Map<String, Object>> updatePartsApartowner(@RequestBody List<Map<String, Object>> reqBody) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		if(!reqBody.stream().allMatch(reqData->reqData.containsKey(PKPROPERTY))) {
-			new AapartownerException("更新リクエストに主キーが指定されていません。対象データをしぼれません。");
+			throw new AapartownerException("更新リクエストに主キーが指定されていません。対象データをしぼれません。");
 		}
-//		return apartownerService.updatePart(reqBody);
 		return apartownerService.updatePart(reqBody);
 	}
 	
+	/**
+	 * ~/apartowner/delete<br>
+	 * apartownerの削除リクエスト取得<
+	 * @param reqBody
+	 * @return
+	 */
 	@DeleteMapping("delete")
 	public ApartownerRes deleteApartowner(@RequestBody CommonReq reqBody) {
 		if (Objects.isNull(reqBody.getId())) {
