@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.ah.apartowner.controllers.ApartownerController;
@@ -22,27 +20,17 @@ import com.ah.apartowner.models.request.ApartownerReq;
 import com.ah.apartowner.models.response.ApartownerRes;
 import com.ah.apartowner.util.StringConverter;
 
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 //@Transactional // メソッド開始時にトランザクションを開始、終了時にコミットする
 public class AapartownerService {
 
 	private final ApartownerRepository rep;
 	private final ModelMapper modelMapper;
-	private final ModelMapper modelMapperSkipNull;
-	private final EntityManager entityManager;
 
-	@Autowired
-	public AapartownerService(ApartownerRepository rep, ModelMapper modelMapper,
-			@Qualifier("modelMapperSkipNull") ModelMapper modelMapperSkipNull,
-			EntityManager entityManager) {
-		this.rep = rep;
-		this.modelMapper = modelMapper;
-		this.modelMapperSkipNull = modelMapperSkipNull;
-		this.entityManager = entityManager;
-	}
 
 	/**
 	 * aprtownersテーブルへの登録処理
@@ -120,6 +108,7 @@ public class AapartownerService {
 		// 更新リクエストごとに処理
 		for (Map<String, Object> updateData : updateDataList) {
 			//idの取得
+			//TODO queryへ検索
 			Integer id = Integer.valueOf(updateData.get(camelPkColumn).toString());
 			//更新データMAPから削除
 			updateData.remove(camelPkColumn);
