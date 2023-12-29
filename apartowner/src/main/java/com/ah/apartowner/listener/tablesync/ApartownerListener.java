@@ -3,7 +3,7 @@ package com.ah.apartowner.listener.tablesync;
 import com.ah.apartowner.datasource.entity.ApartownersEntity;
 import com.ah.commonlib.EntityUtil;
 import com.ah.tablesynclib.bean.TableSyncRequestBean;
-import com.ah.tablesynclib.rest.RequestService;
+import com.ah.tablesynclib.rest.SyncRequestService;
 
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PostRemove;
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ApartownerListener {
 
-	private final RequestService requestService;
+	private final SyncRequestService requestService;
 
 	@PostPersist
 	public void afterInsert(ApartownersEntity entity) {
