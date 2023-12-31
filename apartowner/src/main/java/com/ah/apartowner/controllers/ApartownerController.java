@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ah.apartowner.exception.AapartownerException;
-import com.ah.apartowner.models.request.ApartownerReq;
+import com.ah.apartowner.messages.ValidationMessageEnum;
 import com.ah.apartowner.models.request.CommonReq;
 import com.ah.apartowner.models.response.ApartownerRes;
 import com.ah.apartowner.services.AapartownerService;
-import com.ah.commonlib.JsonConverter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,9 +40,9 @@ public class ApartownerController {
 	@PostMapping("regist")
 	public ApartownerRes registApartowner(@RequestBody CommonReq reqBody) {
 		if (Objects.nonNull(reqBody.getId())) {
-			throw new AapartownerException("登録リクエストに主キーが指定されています。");
+			throw new AapartownerException(ValidationMessageEnum.RequestNotRequiredIdError.getM());
 		}
-		return apartownerService.regist(JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class));
+		return apartownerService.regist(reqBody);
 	}
 	
 	/**
@@ -55,11 +54,9 @@ public class ApartownerController {
 	@PutMapping("update")
 	public ApartownerRes updateApartowner(@RequestBody CommonReq reqBody) {
 		if(Objects.isNull(reqBody.getId())) {
-			throw new AapartownerException("更新リクエストに主キーが指定されていません。対象データをしぼれません。");
+			throw new AapartownerException(ValidationMessageEnum.RequestRequiredIdError.getM());
 		}
-		ApartownerReq reqData = JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
-		reqData.setApartownerId(reqBody.getId());
-		return apartownerService.update(reqData);
+		return apartownerService.update(reqBody);
 	}
 
 	/**
@@ -73,8 +70,8 @@ public class ApartownerController {
 	 */
 	@PutMapping("update/parts")
 	public List<Map<String, Object>> updatePartsApartowner(@RequestBody List<Map<String, Object>> reqBody) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		if(!reqBody.stream().allMatch(reqData->reqData.containsKey(PKPROPERTY))) {
-			throw new AapartownerException("更新リクエストに主キーが指定されていません。対象データをしぼれません。");
+		if(!reqBody.stream().allMatch(reqData->reqData.containsKey(PKPROPERTY) && Objects.nonNull(reqData.get(PKPROPERTY)))) {
+			throw new AapartownerException(ValidationMessageEnum.RequestRequiredIdError.getM());
 		}
 		return apartownerService.updatePart(reqBody);
 	}
@@ -88,7 +85,7 @@ public class ApartownerController {
 	@DeleteMapping("delete")
 	public ApartownerRes deleteApartowner(@RequestBody CommonReq reqBody) {
 		if (Objects.isNull(reqBody.getId())) {
-			throw new AapartownerException("削除クエストに主キーが指定されていません。対象データをしぼれません。");
+			throw new AapartownerException(ValidationMessageEnum.RequestRequiredIdError.getM());
 		}
 		
 		return apartownerService.delete(reqBody.getId());

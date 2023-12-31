@@ -11,5 +11,7 @@ import com.ah.apartowner.datasource.entity.ApartownersEntity;
 public interface ApartownerRepository extends JpaRepository<ApartownersEntity, Integer> {
 
 	public List<ApartownersEntity> findByApartownerNameAndEmail(String apartownerName, String email);
+	
+	public List<ApartownersEntity> findByApartownerNameAndEmailAndApartownerIdNot(String apartownerName, String email, Integer apartownerId);
 
 }

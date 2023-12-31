@@ -21,9 +21,15 @@ public class ApartownerReadRepositoryImpl extends ReadAbstractRepository<Apartow
 	@Override
 	public boolean isExsitsByUniqueCol(Object reqData) {
 		ApartownerReq data = JsonConverter.deserializeJson(reqData, ApartownerReq.class);
-		String apartownerName = data.getApartownerName();
-		String email = data.getEmail();
-		List<ApartownersEntity> results = super.jpaRepository.findByApartownerNameAndEmail(apartownerName, email);
+		List<ApartownersEntity> results = super.jpaRepository.findByApartownerNameAndEmail(data.getApartownerName(), data.getEmail());
+		
+		return CollectionUtils.isNotEmpty(results);
+	}
+
+	@Override
+	public boolean isExsitsByUniqueColNotEqId(Object reqData, Integer id) {
+		ApartownerReq data = JsonConverter.deserializeJson(reqData, ApartownerReq.class);
+		List<ApartownersEntity> results = super.jpaRepository.findByApartownerNameAndEmailAndApartownerIdNot(data.getApartownerName(), data.getEmail(), id);
 		
 		return CollectionUtils.isNotEmpty(results);
 	}
