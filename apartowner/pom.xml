@@ -81,6 +81,11 @@
 			<artifactId>commonLib</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.ah.backendreadlib</groupId>
+			<artifactId>backendReadLib</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<!--
 	<build>

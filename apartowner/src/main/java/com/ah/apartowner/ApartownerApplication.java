@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({ "com.ah.apartowner", "com.ah.tablesynclib", "com.ah.commonlib" })
+@ComponentScan({ "com.ah.apartowner", "com.ah.tablesynclib", "com.ah.commonlib", "com.ah.backendreadlib" })
 public class ApartownerApplication {
 
 	public static void main(String[] args) {
