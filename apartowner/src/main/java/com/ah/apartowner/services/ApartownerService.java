@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 //@Transactional // メソッド開始時にトランザクションを開始、終了時にコミットする
-public class AapartownerService {
+public class ApartownerService {
 
 	private final ApartownerRepository rep;
 	private final ModelMapper modelMapper;
