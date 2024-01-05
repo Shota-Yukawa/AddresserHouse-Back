@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -70,7 +69,7 @@ public class AapartownerService {
 	 */
 	public ApartownerRes update(CommonReq reqBody) {
 
-		ApartownersEntity select  = apartownerIdCheck(reqBody.getId());
+		ApartownersEntity select  = readImpl.existCheckAndGetById(reqBody.getId());
 
 		if (readImpl.isExsitsByUniqueColNotEqId(reqBody.getData(), reqBody.getId())) {
 			//一意チェックですでにある場合
@@ -124,7 +123,7 @@ public class AapartownerService {
 			//更新データMAPから削除
 			updateData.remove(camelPkColumn);
 			//idで検索
-			ApartownersEntity select  = apartownerIdCheck(id);
+			ApartownersEntity select  = readImpl.existCheckAndGetById(id);
 			//更新する項目と値をentityにをセットする
 			for (Entry<String, Object> entry : updateData.entrySet()) {
 				try {
@@ -145,7 +144,7 @@ public class AapartownerService {
 	 * @return
 	 */
 	public ApartownerRes delete(Integer reqId) {
-		ApartownersEntity select  = apartownerIdCheck(reqId);
+		ApartownersEntity select  = readImpl.existCheckAndGetById(reqId);
 		rep.delete(select);
 
 		// レスポンス
@@ -154,16 +153,4 @@ public class AapartownerService {
 		return res;
 	}
 	
-	/**
-	 * readImplを使用して、apartowner_idの存在チェックし、ある場合はEntityを返す
-	 * @param id
-	 * @return
-	 */
-	private ApartownersEntity apartownerIdCheck(Integer id) {
-		Optional<ApartownersEntity> selectOpt = readImpl.findOptById(id);
-		if (selectOpt.isEmpty())//idがない場合
-		throw new AapartownerException(ValidationMessageEnum.ApartownerNotIdError.getM());
-
-		return selectOpt.get();
-	}
 }

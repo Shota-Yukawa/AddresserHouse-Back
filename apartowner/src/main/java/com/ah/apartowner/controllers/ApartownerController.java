@@ -16,7 +16,7 @@ import com.ah.apartowner.exception.AapartownerException;
 import com.ah.apartowner.messages.ValidationMessageEnum;
 import com.ah.apartowner.models.request.CommonReq;
 import com.ah.apartowner.models.response.ApartownerRes;
-import com.ah.apartowner.services.AapartownerService;
+import com.ah.apartowner.services.ApartownerService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("apartowner")
 public class ApartownerController {
 
-	private final AapartownerService apartownerService;
+	private final ApartownerService apartownerService;
 	
 	public final static String TABLENAME = "apartowners";
 	public final static String PKCOLUMNNAME = "apartowner_id";
