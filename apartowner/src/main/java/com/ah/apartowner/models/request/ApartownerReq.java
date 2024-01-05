@@ -19,7 +19,7 @@ public class ApartownerReq {
 	@JsonProperty("apartowners.apartowner_name")
 	private String apartownerName;
 
-	@JsonProperty("apartowners.apartowner_name_kane")
+	@JsonProperty("apartowners.apartowner_name_kana")
 	private String apartownerNameKana;
 
 	@JsonProperty("apartowners.email")
