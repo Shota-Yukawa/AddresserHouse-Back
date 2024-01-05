@@ -6,6 +6,8 @@ public enum ValidationMessageEnum {
 	RequestNotRequiredIdError("リクエストに主キーが指定されています。"),
 	ApartownerUniqueError("すでに存在しているアパートオーナーです。"),
 	ApartownerNotIdError("指定されたアパートオーナーIDのデータが存在しません。"),
+	ApartmentUniqueError("すでに存在しているアパートメントです。"),
+	ApartmentNotIdError("指定されたアパートメントIDのデータが存在しません。")
 	;
 	
 	private String message;

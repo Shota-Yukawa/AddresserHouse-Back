@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.ah.apartowner.datasource.entity.parts.SystemDateEntityParts;
+import com.ah.commonlib.StringConverter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +29,7 @@ public class ApartmentsEntity extends SystemDateEntityParts {
 	@Id
 	@Column(name = "apartment_id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pkey_seq")
-	private Integer apartmentsId;
+	private Integer apartmentId;
 
 	@ManyToOne
 	@JoinColumn(name = "apartowner_id", nullable = false, referencedColumnName = "apartowner_id")
@@ -46,7 +47,7 @@ public class ApartmentsEntity extends SystemDateEntityParts {
 	@Column(name = "number_of_floor")
 	private int numOfFloor;
 
-	@Column(name = "build_on")
+	@Column(name = "build_on", columnDefinition = "TIMESTAMP")
 	private LocalDate buildOn;
 
 	@Column(name = "post_code")
@@ -64,4 +65,8 @@ public class ApartmentsEntity extends SystemDateEntityParts {
 
 	@OneToMany(mappedBy = "apartment")
 	private List<ApartNewsRangeEntity> apartNewsRanges;
+	
+	public void setBuildOn(String str) {
+		this.buildOn = StringConverter.convertToLocalDate(str);
+	}
 }
