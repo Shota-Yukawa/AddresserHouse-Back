@@ -15,6 +15,10 @@ public class ApartownerListener {
 
 	private final SyncRequestService requestService;
 
+	/**
+	 * [登録] apartownerテーブルを、queryDBへのテーブル同期リクエストを行う。
+	 * @param entity
+	 */
 	@PostPersist
 	public void afterInsert(ApartownersEntity entity) {
 		// エンティティが挿入された後に実行したい処理を記述
@@ -23,13 +27,25 @@ public class ApartownerListener {
 		requestService.syncApartownerInsert(reqData);
 	}
 
+	/**
+	 * [更新] apartownerテーブルを、queryDBへのテーブル同期リクエストを行う。
+	 * @param entity
+	 */
 	@PostUpdate
 	public void afterUpdate(ApartownersEntity entity) {
 		// エンティティが更新された後に実行したい処理を記述
+		String tableName = EntityUtil.getEntityTalbeName(entity.getClass());
+		TableSyncRequestBean reqData = new TableSyncRequestBean(tableName, EntityUtil.methodEnum.update, entity);
+		requestService.syncApartownerUpdate(reqData);
 	}
 
+	/**
+	 * [削除] apartownerテーブルを、queryDBへのテーブル同期リクエストを行う。
+	 * @param entity
+	 */
 	@PostRemove
 	public void afterDelete(ApartownersEntity entity) {
 		// エンティティが削除された後に実行したい処理を記述
+		requestService.syncApartownerDelete(entity.getApartownerId());
 	}
 }
