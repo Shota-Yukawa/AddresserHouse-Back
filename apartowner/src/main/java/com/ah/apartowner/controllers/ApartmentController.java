@@ -37,6 +37,12 @@ public class ApartmentController {
 		return apartmentService.regist(reqBody);
 	}
 	
+	/**
+	 * ~/apartments/update<br>
+	 * apartmentの更新リクエスト
+	 * @param reqBody
+	 * @return
+	 */
 	@PutMapping("update")
 	public ApartmentRes updateApartment(@RequestBody CommonReq reqBody) {
 		if(Objects.isNull(reqBody.getId())) {
