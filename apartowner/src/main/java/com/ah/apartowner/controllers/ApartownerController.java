@@ -1,6 +1,5 @@
 package com.ah.apartowner.controllers;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -64,12 +63,9 @@ public class ApartownerController {
 	 * apartownerの部分項目更新リクエスト取得
 	 * @param reqBody
 	 * @return
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
 	 */
 	@PutMapping("update/parts")
-	public List<Map<String, Object>> updatePartsApartowner(@RequestBody List<Map<String, Object>> reqBody) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	public List<Map<String, Object>> updatePartsApartowner(@RequestBody List<Map<String, Object>> reqBody) {
 		if(!reqBody.stream().allMatch(reqData->reqData.containsKey(PKPROPERTY) && Objects.nonNull(reqData.get(PKPROPERTY)))) {
 			throw new AapartownerException(ValidationMessageEnum.RequestRequiredIdError.getM());
 		}

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.modelmapper.ModelMapper;
@@ -20,6 +19,7 @@ import com.ah.apartowner.messages.ValidationMessageEnum;
 import com.ah.apartowner.models.request.ApartownerReq;
 import com.ah.apartowner.models.request.CommonReq;
 import com.ah.apartowner.models.response.ApartownerRes;
+import com.ah.commonlib.BackUtil;
 import com.ah.commonlib.JsonConverter;
 import com.ah.commonlib.StringConverter;
 
@@ -108,14 +108,7 @@ public class ApartownerService {
 	public List<Map<String, Object>> updatePart(List<Map<String, Object>> reqBody) {
 
 		//リクエストjsonのプロパティを項目（カラム）名だけにして、値とMapにする。
-		List<Map<String, Object>> updateDataList = reqBody
-				.stream()
-				.map(reqMap -> reqMap.entrySet().stream()
-						.filter(entry -> entry.getKey().contains("."))
-						.collect(Collectors.toMap(
-								entry -> StringConverter.convertSnakeToCamel(entry.getKey().split("\\.")[1]), //絡む名だけ取得し、キャメルケースに変換
-								Map.Entry::getValue)))
-				.collect(Collectors.toList());
+		List<Map<String, Object>> updateDataList = BackUtil.shapeReqKeyToColumnCamel(reqBody);
 
 		//PK項目かの判別用に、idの項目名をキャメルケースに変換
 		String camelPkColumn = StringConverter.convertSnakeToCamel(ApartownerController.PKCOLUMNNAME);
@@ -133,7 +126,7 @@ public class ApartownerService {
 					PropertyUtils.setProperty(select, entry.getKey(), entry.getValue());
 				} catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
 					e.printStackTrace();
-					throw new AapartownerException("部分更新リクエスト内容に誤りがあります。");
+					throw new AapartownerException(ValidationMessageEnum.RequestPartBodyError.getM());
 				}
 			}
 			rep.save(select);

@@ -1,5 +1,7 @@
 package com.ah.apartowner.controllers;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +24,12 @@ import lombok.RequiredArgsConstructor;
 public class ApartmentController {
 
 	private final ApartmentService apartmentService;
+	
+	public final static String TABLENAME = "apartments";
+	public final static String PKCOLUMNNAME = "apartment_id";
+	public final static String PKPROPERTY = TABLENAME + "." + PKCOLUMNNAME;
+	public final static String REL_APARTOWNER_REQ = "apartowner_id";
+	public final static String REL_APARTOWNER_ENTITY = "apartowner";
 	
 	/**
 	 * ~/apartment/regist<br>
@@ -49,5 +57,19 @@ public class ApartmentController {
 			throw new AapartownerException(ValidationMessageEnum.RequestRequiredIdError.getM());
 		}
 		return apartmentService.update(reqBody);
+	}
+	
+	/**
+	 * ~/apartments/update/parts<br>
+	 * ppartmwntの部分項目更新リクエスト
+	 * @param reqBody
+	 * @return
+	 */
+	@PutMapping("update/parts")
+	public List<Map<String, Object>> updatePartsApartment(@RequestBody List<Map<String, Object>> reqBody) {
+		if (!reqBody.stream().allMatch(reqData->reqData.containsKey(PKPROPERTY) && Objects.nonNull(reqData.get(PKPROPERTY)))) {
+			throw new AapartownerException(ValidationMessageEnum.RequestRequiredIdError.getM());
+		}
+		return apartmentService.updatePart(reqBody);
 	}
 }

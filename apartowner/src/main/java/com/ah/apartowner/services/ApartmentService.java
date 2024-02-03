@@ -1,10 +1,16 @@
 package com.ah.apartowner.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.ah.apartowner.controllers.ApartmentController;
 import com.ah.apartowner.datasource.entity.ApartmentsEntity;
 import com.ah.apartowner.datasource.entity.ApartownersEntity;
 import com.ah.apartowner.datasource.readimpl.ApartmentReadRepositoryImpl;
@@ -15,8 +21,16 @@ import com.ah.apartowner.messages.ValidationMessageEnum;
 import com.ah.apartowner.models.request.ApartmentReq;
 import com.ah.apartowner.models.request.CommonReq;
 import com.ah.apartowner.models.response.ApartmentRes;
+import com.ah.commonlib.BackUtil;
+import com.ah.commonlib.EntityUtil;
 import com.ah.commonlib.JsonConverter;
+import com.ah.commonlib.StringConverter;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaUpdate;
+import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -27,6 +41,7 @@ public class ApartmentService {
 	private final ModelMapper modelMapper;
 	private final ApartmentReadRepositoryImpl readImpl;
 	private final ApartownerReadRepositoryImpl apartownerReadImpl;
+	private final EntityManager entityManager;
 
 	/**
 	 * apartmentsテーブルへの登録処理
@@ -92,5 +107,68 @@ public class ApartmentService {
 		ApartmentRes res = modelMapper.map(reqEntity, ApartmentRes.class);
 
 		return res;
+	}
+
+	/**
+	 * 特定項目のみの更新用メソッド<br>
+	 * リクエストにある jsonからCriteriaUpdateを作成し、Query実行する。<br>
+	 * 他テーブルへのリレーションは個別に取得してセットする
+	 * @param reqBody
+	 * @return
+	 */
+	@Transactional
+	public List<Map<String, Object>> updatePart(List<Map<String, Object>> reqBody) {
+
+		//リクエストjsonのプロパティを項目（カラム）名だけにして、値とMapにする。
+		List<Map<String, Object>> updateDataList = BackUtil.shapeReqKeyToColumnCamel(reqBody);
+		if(Objects.isNull(updateDataList)) {
+			throw new AapartownerException(ValidationMessageEnum.RequestBodyError.getM());
+		}
+		//PK項目かの判別用に、idの項目名をキャメルケースに変換
+		String camelPkColumn = StringConverter.convertSnakeToCamel(ApartmentController.PKCOLUMNNAME);
+		String camelApartownerId = StringConverter.convertSnakeToCamel(ApartmentController.REL_APARTOWNER_REQ);
+		
+		for (Map<String, Object> updateData : updateDataList) {
+			//idの取得
+			Integer id = Integer.valueOf(updateData.get(camelPkColumn).toString());
+			//更新データMAPから削除
+			updateData.remove(camelPkColumn);
+
+			//クリテリアで更新クエリを作成
+			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+			CriteriaUpdate<ApartmentsEntity> update = criteriaBuilder.createCriteriaUpdate(ApartmentsEntity.class);
+			Root<ApartmentsEntity> root = update.getRoot();
+
+			//更新日は手動でセット
+			update.set(root.get(EntityUtil.UPDATEATCAMEL), LocalDateTime.now());
+			
+			//各カラムのセット
+			for (Entry<String, Object> entry : updateData.entrySet()) {
+				if (Objects.equals(entry.getKey(), camelApartownerId)) {
+					//apartownerへのrelation
+					if (Objects.isNull(entry.getValue())) {// nullチェック
+						throw new AapartownerException(ValidationMessageEnum.RequestUnacceptedValueError
+								.getMWithParam(ApartmentController.REL_APARTOWNER_REQ));
+					}
+					ApartownersEntity apartowner = apartownerReadImpl
+							.existCheckAndGetById(Integer.valueOf(entry.getValue().toString()));
+					update.set(root.get(ApartmentController.REL_APARTOWNER_ENTITY), apartowner);
+				} else {
+					//その他のカラム
+					update.set(root.get(entry.getKey()), entry.getValue());
+				}
+			}
+			//id指定のwhere句
+			update.where(criteriaBuilder.equal(root.get(camelPkColumn), id));
+			//更新実行
+			try {
+				entityManager.createQuery(update).executeUpdate();
+			} catch (ConstraintViolationException cve) {
+				cve.printStackTrace();
+				throw new AapartownerException(ValidationMessageEnum.RequestUnacceptedValueError
+						.getMWithParam(cve.getConstraintName()));
+			}
+		}
+		return reqBody;
 	}
 }
