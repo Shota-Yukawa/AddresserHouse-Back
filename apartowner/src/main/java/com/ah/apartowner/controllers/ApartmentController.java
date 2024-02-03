@@ -3,6 +3,7 @@ package com.ah.apartowner.controllers;
 import java.util.Objects;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,5 +35,13 @@ public class ApartmentController {
 			throw new AapartownerException(ValidationMessageEnum.RequestNotRequiredIdError.getM());
 		}
 		return apartmentService.regist(reqBody);
+	}
+	
+	@PutMapping("update")
+	public ApartmentRes updateApartment(@RequestBody CommonReq reqBody) {
+		if(Objects.isNull(reqBody.getId())) {
+			throw new AapartownerException(ValidationMessageEnum.RequestRequiredIdError.getM());
+		}
+		return apartmentService.update(reqBody);
 	}
 }
