@@ -64,7 +64,7 @@ public class ApartownerService {
 	}
 
 	/**
-	 * aprtownersテーブルへの登録処理<br>
+	 * aprtownersテーブルへの更新処理<br>
 	 * 全カラムの更新
 	 * @param reqData
 	 * @return
