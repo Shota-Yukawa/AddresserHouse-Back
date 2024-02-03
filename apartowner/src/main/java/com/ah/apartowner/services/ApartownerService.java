@@ -44,13 +44,15 @@ public class ApartownerService {
 	 */
 	public ApartownerRes regist(CommonReq reqBody) {
 		
-		if(readImpl.isExsitsByUniqueCol(reqBody.getData())) {
+		ApartownerReq reqData = JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
+		
+		if(readImpl.isExsitsByUniqueCol(reqData)) {
 			//一意チェックですでにある場合
 			throw new AapartownerException(ValidationMessageEnum.ApartownerUniqueError.getM());
 		}
 		
 		// entityにマッピング
-		ApartownersEntity reqEntity = modelMapper.map(JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class), ApartownersEntity.class);
+		ApartownersEntity reqEntity = modelMapper.map(reqData, ApartownersEntity.class);
 
 		// 登録処理
 		reqEntity = rep.save(reqEntity);
@@ -68,19 +70,20 @@ public class ApartownerService {
 	 * @return
 	 */
 	public ApartownerRes update(CommonReq reqBody) {
+		
+		ApartownerReq reqData = JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
 
-		ApartownersEntity select  = readImpl.existCheckAndGetById(reqBody.getId());
-
-		if (readImpl.isExsitsByUniqueColNotEqId(reqBody.getData(), reqBody.getId())) {
+		if (readImpl.isExsitsByUniqueColNotEqId(reqData, reqBody.getId())) {
 			//一意チェックですでにある場合
 			throw new AapartownerException(ValidationMessageEnum.ApartownerUniqueError.getM());
 		}
 		
 		//登録日時だけ更新しないため取得
+		ApartownersEntity select  = readImpl.existCheckAndGetById(reqBody.getId());
 		LocalDateTime registAt = select.getRegistAt();
 
 		// entityにマッピングして、idセット
-		ApartownersEntity reqEntity = modelMapper.map(JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class), ApartownersEntity.class);
+		ApartownersEntity reqEntity = modelMapper.map(reqData, ApartownersEntity.class);
 		reqEntity.setApartownerId(reqBody.getId());
 		
 		//登録日時だけ独自セット

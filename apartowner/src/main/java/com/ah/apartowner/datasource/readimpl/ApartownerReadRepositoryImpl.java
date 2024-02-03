@@ -12,26 +12,23 @@ import com.ah.apartowner.exception.AapartownerException;
 import com.ah.apartowner.messages.ValidationMessageEnum;
 import com.ah.apartowner.models.request.ApartownerReq;
 import com.ah.backendreadlib.abstracts.ReadAbstractRepository;
-import com.ah.commonlib.JsonConverter;
 
 @Service
-public class ApartownerReadRepositoryImpl extends ReadAbstractRepository<ApartownersEntity, Integer, ApartownerRepository> {
+public class ApartownerReadRepositoryImpl extends ReadAbstractRepository<ApartownersEntity, Integer, ApartownerRepository, ApartownerReq> {
 
 	public ApartownerReadRepositoryImpl(ApartownerRepository jpaRepository) {
         this.jpaRepository = jpaRepository;
     }
 	
 	@Override
-	public boolean isExsitsByUniqueCol(Object reqData) {
-		ApartownerReq data = JsonConverter.deserializeJson(reqData, ApartownerReq.class);
+	public boolean isExsitsByUniqueCol(ApartownerReq data) {
 		List<ApartownersEntity> results = super.jpaRepository.findByApartownerNameAndEmail(data.getApartownerName(), data.getEmail());
 		
 		return CollectionUtils.isNotEmpty(results);
 	}
 
 	@Override
-	public boolean isExsitsByUniqueColNotEqId(Object reqData, Integer id) {
-		ApartownerReq data = JsonConverter.deserializeJson(reqData, ApartownerReq.class);
+	public boolean isExsitsByUniqueColNotEqId(ApartownerReq data, Integer id) {
 		List<ApartownersEntity> results = super.jpaRepository.findByApartownerNameAndEmailAndApartownerIdNot(data.getApartownerName(), data.getEmail(), id);
 		
 		return CollectionUtils.isNotEmpty(results);

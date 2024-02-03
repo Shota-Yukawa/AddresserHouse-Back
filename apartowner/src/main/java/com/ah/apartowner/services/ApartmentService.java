@@ -32,15 +32,16 @@ public class ApartmentService {
 	 * @return
 	 */
 	public ApartmentRes regist(CommonReq reqBody) {
-		if(readImpl.isExsitsByUniqueCol(reqBody.getData())) {
+		//リクエストBeanにデシリアライズ
+		ApartmentReq reqData = JsonConverter.deserializeJson(reqBody.getData(), ApartmentReq.class);
+		if (readImpl.isExsitsByUniqueCol(reqData)) {
 			//一意チェックですでにある場合
 			throw new AapartownerException(ValidationMessageEnum.ApartmentUniqueError.getM());
 		}
-		//リクエストBeanにデシリアライズ
-		ApartmentReq reqData = JsonConverter.deserializeJson(reqBody.getData(), ApartmentReq.class);
+
 		//アパートオーナーのチェックと取得
 		ApartownersEntity apartowner = apartownerReadImpl.existCheckAndGetById(reqData.getApartownerId());
-		
+
 		//Entity作成
 		ApartmentsEntity reqEntity = modelMapper.map(reqData, ApartmentsEntity.class);
 		//アパートオーナーのセット

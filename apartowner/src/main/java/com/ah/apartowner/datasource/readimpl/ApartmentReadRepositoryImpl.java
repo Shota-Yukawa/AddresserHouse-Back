@@ -12,25 +12,22 @@ import com.ah.apartowner.exception.AapartownerException;
 import com.ah.apartowner.messages.ValidationMessageEnum;
 import com.ah.apartowner.models.request.ApartmentReq;
 import com.ah.backendreadlib.abstracts.ReadAbstractRepository;
-import com.ah.commonlib.JsonConverter;
 
 @Service
-public class ApartmentReadRepositoryImpl extends ReadAbstractRepository<ApartmentsEntity, Integer, ApartmentsRepository> {
+public class ApartmentReadRepositoryImpl extends ReadAbstractRepository<ApartmentsEntity, Integer, ApartmentsRepository, ApartmentReq> {
 
 	public ApartmentReadRepositoryImpl(ApartmentsRepository jpaRepository) {
 		this.jpaRepository = jpaRepository;
 	}
 
 	@Override
-	public boolean isExsitsByUniqueCol(Object reqData) {
-		ApartmentReq data = JsonConverter.deserializeJson(reqData, ApartmentReq.class);
+	public boolean isExsitsByUniqueCol(ApartmentReq data) {
 		List<ApartmentsEntity> results = super.jpaRepository.findByApartowner_ApartownerIdAndApartName(data.getApartownerId(), data.getApartName());
 		return CollectionUtils.isNotEmpty(results);
 	}
 
 	@Override
-	public boolean isExsitsByUniqueColNotEqId(Object reqData, Integer id) {
-		ApartmentReq data = JsonConverter.deserializeJson(reqData, ApartmentReq.class);
+	public boolean isExsitsByUniqueColNotEqId(ApartmentReq data, Integer id) {
 		List<ApartmentsEntity> results = super.jpaRepository.findByApartowner_ApartownerIdAndApartNameAndApartmentIdNot(data.getApartownerId(), data.getApartName(), id);
 		return CollectionUtils.isNotEmpty(results);
 	}
