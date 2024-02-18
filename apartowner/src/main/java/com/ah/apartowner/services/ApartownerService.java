@@ -111,7 +111,7 @@ public class ApartownerService {
 		List<Map<String, Object>> updateDataList = BackUtil.shapeReqKeyToColumnCamel(reqBody);
 
 		//PK項目かの判別用に、idの項目名をキャメルケースに変換
-		String camelPkColumn = StringConverter.convertSnakeToCamel(ApartownerController.PKCOLUMNNAME);
+		String camelPkColumn = StringConverter.convertSnakeToCamel(ApartownerController.PK_COLUMN_NAME);
 		// 更新リクエストごとに処理
 		for (Map<String, Object> updateData : updateDataList) {
 			//idの取得
