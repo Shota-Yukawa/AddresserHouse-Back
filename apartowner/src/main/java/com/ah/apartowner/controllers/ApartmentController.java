@@ -25,11 +25,10 @@ public class ApartmentController {
 
 	private final ApartmentService apartmentService;
 	
-	public final static String TABLENAME = "apartments";
-	public final static String PKCOLUMNNAME = "apartment_id";
-	public final static String PKPROPERTY = TABLENAME + "." + PKCOLUMNNAME;
-	public final static String REL_APARTOWNER_REQ = "apartowner_id";
-	public final static String REL_APARTOWNER_ENTITY = "apartowner";
+	public final static String TABLE_NAME = "apartments";
+	public final static String ENTITY_REL_FIELD_NAME = "apartment";
+	public final static String PK_COLUMN_NAME = "apartment_id";
+	public final static String PK_PROPERTY = TABLE_NAME + "." + PK_COLUMN_NAME;
 	
 	/**
 	 * ~/apartment/regist<br>
@@ -67,7 +66,7 @@ public class ApartmentController {
 	 */
 	@PutMapping("update/parts")
 	public List<Map<String, Object>> updatePartsApartment(@RequestBody List<Map<String, Object>> reqBody) {
-		if (!reqBody.stream().allMatch(reqData->reqData.containsKey(PKPROPERTY) && Objects.nonNull(reqData.get(PKPROPERTY)))) {
+		if (!reqBody.stream().allMatch(reqData->reqData.containsKey(PK_PROPERTY) && Objects.nonNull(reqData.get(PK_PROPERTY)))) {
 			throw new AapartownerException(ValidationMessageEnum.RequestRequiredIdError.getM());
 		}
 		return apartmentService.updatePart(reqBody);

@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.ah.apartowner.controllers.ApartmentController;
+import com.ah.apartowner.controllers.ApartownerController;
 import com.ah.apartowner.datasource.entity.ApartmentsEntity;
 import com.ah.apartowner.datasource.entity.ApartownersEntity;
 import com.ah.apartowner.datasource.readimpl.ApartmentReadRepositoryImpl;
@@ -125,8 +126,8 @@ public class ApartmentService {
 			throw new AapartownerException(ValidationMessageEnum.RequestBodyError.getM());
 		}
 		//PK項目かの判別用に、idの項目名をキャメルケースに変換
-		String camelPkColumn = StringConverter.convertSnakeToCamel(ApartmentController.PKCOLUMNNAME);
-		String camelApartownerId = StringConverter.convertSnakeToCamel(ApartmentController.REL_APARTOWNER_REQ);
+		String camelPkColumn = StringConverter.convertSnakeToCamel(ApartmentController.PK_COLUMN_NAME);
+		String camelApartownerId = StringConverter.convertSnakeToCamel(ApartownerController.PK_COLUMN_NAME);
 		
 		for (Map<String, Object> updateData : updateDataList) {
 			//idの取得
@@ -148,11 +149,11 @@ public class ApartmentService {
 					//apartownerへのrelation
 					if (Objects.isNull(entry.getValue())) {// nullチェック
 						throw new AapartownerException(ValidationMessageEnum.RequestUnacceptedValueError
-								.getMWithParam(ApartmentController.REL_APARTOWNER_REQ));
+								.getMWithParam(ApartownerController.PK_COLUMN_NAME));
 					}
 					ApartownersEntity apartowner = apartownerReadImpl
 							.existCheckAndGetById(Integer.valueOf(entry.getValue().toString()));
-					update.set(root.get(ApartmentController.REL_APARTOWNER_ENTITY), apartowner);
+					update.set(root.get(ApartownerController.ENTITY_REL_FIELD_NAME), apartowner);
 				} else {
 					//その他のカラム
 					update.set(root.get(entry.getKey()), entry.getValue());
