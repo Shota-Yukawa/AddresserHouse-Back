@@ -37,10 +37,10 @@ public class ApartownerRes {
 	private String afterStreet;
 	
 	@JsonProperty("apartowners.regist_at")
-	@JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss.SSS")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private LocalDateTime registAt;
 	
 	@JsonProperty("apartowners.update_at")
-	@JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss.SSS")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private LocalDateTime updateAt;
 }
