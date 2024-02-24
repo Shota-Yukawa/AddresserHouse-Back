@@ -20,14 +20,14 @@ public class SystemDateEntityParts implements Serializable {
 	private LocalDateTime updateAt;
 
 	@PrePersist
-	protected void afterRegist() {
+	protected void beforeRegist() {
 		LocalDateTime date = LocalDateTime.now();
 		setRegistAt(date);
 		setUpdateAt(date);
 	}
 
 	@PreUpdate
-	protected void afterUpdate() {
+	protected void beforeUpdate() {
 		LocalDateTime date = LocalDateTime.now();
 		setUpdateAt(date);
 	}
