@@ -43,6 +43,7 @@ public class ApartmentService {
 	private final ApartmentReadRepositoryImpl readImpl;
 	private final ApartownerReadRepositoryImpl apartownerReadImpl;
 	private final EntityManager entityManager;
+	private final JsonConverter jsonConverter;
 
 	/**
 	 * apartmentsテーブルへの登録処理
@@ -51,7 +52,7 @@ public class ApartmentService {
 	 */
 	public ApartmentRes regist(CommonReq reqBody) {
 		//リクエストBeanにデシリアライズ
-		ApartmentReq reqData = JsonConverter.deserializeJson(reqBody.getData(), ApartmentReq.class);
+		ApartmentReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartmentReq.class);
 		if (readImpl.isExsitsByUniqueCol(reqData)) {
 			//一意チェックですでにある場合
 			throw new AapartownerException(ValidationMessageEnum.ApartmentUniqueError.getM());
@@ -84,7 +85,7 @@ public class ApartmentService {
 	public ApartmentRes update(CommonReq reqBody) {
 		
 		//リクエストBeanにデシリアライズ
-		ApartmentReq reqData = JsonConverter.deserializeJson(reqBody.getData(), ApartmentReq.class);
+		ApartmentReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartmentReq.class);
 		
 		if (readImpl.isExsitsByUniqueColNotEqId(reqData, reqBody.getId())) {
 			//一意チェックですでにある場合

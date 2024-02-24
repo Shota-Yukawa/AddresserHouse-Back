@@ -34,6 +34,7 @@ public class ApartownerService {
 	private final ApartownerRepository rep;
 	private final ModelMapper modelMapper;
 	private final ApartownerReadRepositoryImpl readImpl;
+	private final JsonConverter jsonConverter;
 
 
 	/**
@@ -44,7 +45,7 @@ public class ApartownerService {
 	 */
 	public ApartownerRes regist(CommonReq reqBody) {
 		
-		ApartownerReq reqData = JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
+		ApartownerReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
 		
 		if(readImpl.isExsitsByUniqueCol(reqData)) {
 			//一意チェックですでにある場合
@@ -71,7 +72,7 @@ public class ApartownerService {
 	 */
 	public ApartownerRes update(CommonReq reqBody) {
 		
-		ApartownerReq reqData = JsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
+		ApartownerReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
 
 		if (readImpl.isExsitsByUniqueColNotEqId(reqData, reqBody.getId())) {
 			//一意チェックですでにある場合
@@ -105,8 +106,8 @@ public class ApartownerService {
 	 * @return
 	 */
 	@Transactional
-	public List<Map<String, Object>> updatePart(List<Map<String, Object>> reqBody) {
-
+	public List<Map<String, Object>> updatePart(List<Map<String, Object>> reqBody){
+		
 		//リクエストjsonのプロパティを項目（カラム）名だけにして、値とMapにする。
 		List<Map<String, Object>> updateDataList = BackUtil.shapeReqKeyToColumnCamel(reqBody);
 
@@ -119,19 +120,20 @@ public class ApartownerService {
 			//更新データMAPから削除
 			updateData.remove(camelPkColumn);
 			//idで検索
-			ApartownersEntity select  = readImpl.existCheckAndGetById(id);
+			ApartownersEntity entity  = readImpl.existCheckAndGetById(id);
 			//更新する項目と値をentityにをセットする
 			for (Entry<String, Object> entry : updateData.entrySet()) {
 				try {
-					PropertyUtils.setProperty(select, entry.getKey(), entry.getValue());
-				} catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
+					PropertyUtils.setProperty(entity, entry.getKey(), entry.getValue());
+				} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 					e.printStackTrace();
-					throw new AapartownerException(ValidationMessageEnum.RequestPartBodyError.getM());
+					throw new AapartownerException(ValidationMessageEnum.RequestUnacceptedValueError
+							.getMWithParam(entry.getKey()));
 				}
 			}
-			rep.save(select);
+			rep.save(entity);
 		}
-		return null;
+		return reqBody;
 	}
 
 	/**
