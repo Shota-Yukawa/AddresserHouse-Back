@@ -1,12 +1,13 @@
 package com.ah.apartowner.services;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 
-import org.hibernate.exception.ConstraintViolationException;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +24,10 @@ import com.ah.apartowner.models.request.ApartmentReq;
 import com.ah.apartowner.models.request.CommonReq;
 import com.ah.apartowner.models.response.ApartmentRes;
 import com.ah.commonlib.BackUtil;
-import com.ah.commonlib.EntityUtil;
 import com.ah.commonlib.JsonConverter;
 import com.ah.commonlib.StringConverter;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaUpdate;
-import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -128,7 +125,6 @@ public class ApartmentService {
 		}
 		//PK項目かの判別用に、idの項目名をキャメルケースに変換
 		String camelPkColumn = StringConverter.convertSnakeToCamel(ApartmentController.PK_COLUMN_NAME);
-		String camelApartownerId = StringConverter.convertSnakeToCamel(ApartownerController.PK_COLUMN_NAME);
 		
 		for (Map<String, Object> updateData : updateDataList) {
 			//idの取得
@@ -136,40 +132,31 @@ public class ApartmentService {
 			//更新データMAPから削除
 			updateData.remove(camelPkColumn);
 
-			//クリテリアで更新クエリを作成
-			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-			CriteriaUpdate<ApartmentsEntity> update = criteriaBuilder.createCriteriaUpdate(ApartmentsEntity.class);
-			Root<ApartmentsEntity> root = update.getRoot();
-
-			//更新日は手動でセット
-			update.set(root.get(EntityUtil.UPDATEATCAMEL), LocalDateTime.now());
+			ApartmentsEntity entity = readImpl.existCheckAndGetById(id);
 			
 			//各カラムのセット
 			for (Entry<String, Object> entry : updateData.entrySet()) {
-				if (Objects.equals(entry.getKey(), camelApartownerId)) {
+				try {
+				if (Objects.equals(entry.getKey(), ApartownerController.ENTITY_REL_FIELD_NAME)) {
 					//apartownerへのrelation
 					if (Objects.isNull(entry.getValue())) {// nullチェック
 						throw new AapartownerException(ValidationMessageEnum.RequestUnacceptedValueError
-								.getMWithParam(ApartownerController.PK_COLUMN_NAME));
+								.getMWithParam(ApartownerController.ENTITY_REL_FIELD_NAME));
 					}
 					ApartownersEntity apartowner = apartownerReadImpl
 							.existCheckAndGetById(Integer.valueOf(entry.getValue().toString()));
-					update.set(root.get(ApartownerController.ENTITY_REL_FIELD_NAME), apartowner);
+					PropertyUtils.setProperty(entity, entry.getKey(), apartowner);
 				} else {
 					//その他のカラム
-					update.set(root.get(entry.getKey()), entry.getValue());
+					PropertyUtils.setProperty(entity, entry.getKey(), entry.getValue());
+				}
+				} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+					e.printStackTrace();
+					throw new AapartownerException(ValidationMessageEnum.RequestUnacceptedValueError
+							.getMWithParam(entry.getKey()));
 				}
 			}
-			//id指定のwhere句
-			update.where(criteriaBuilder.equal(root.get(camelPkColumn), id));
-			//更新実行
-			try {
-				entityManager.createQuery(update).executeUpdate();
-			} catch (ConstraintViolationException cve) {
-				cve.printStackTrace();
-				throw new AapartownerException(ValidationMessageEnum.RequestUnacceptedValueError
-						.getMWithParam(cve.getConstraintName()));
-			}
+			rep.save(entity);
 		}
 		return reqBody;
 	}
