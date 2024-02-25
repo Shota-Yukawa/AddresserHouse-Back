@@ -1,12 +1,16 @@
 package com.ah.residence.services;
 
+import java.time.LocalDateTime;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.ah.commonlib.JsonConverter;
 import com.ah.residence.datasource.entity.ApartResidencesEntity;
+import com.ah.residence.datasource.readimpl.ApartResidenceReadRepositoryImpl;
 import com.ah.residence.datasource.repository.ApartResidencesRepository;
 import com.ah.residence.exception.ResidenceException;
+import com.ah.residence.message.ValidationMessageEnum;
 import com.ah.residence.models.req.ApartResidenceReq;
 import com.ah.residence.models.req.CommonReq;
 import com.ah.residence.models.res.ApartResidenceRes;
@@ -19,6 +23,7 @@ public class ApartResidenceService {
 
 	private final ApartResidencesRepository rep;
 	private final ModelMapper modelMapper;
+	private final ApartResidenceReadRepositoryImpl readImpl;
 	private final JsonConverter jsonConverter;
 
 	/**
@@ -30,14 +35,19 @@ public class ApartResidenceService {
 	public ApartResidenceRes create(CommonReq reqBody) {
 		ApartResidenceReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartResidenceReq.class);
 		
+		if(readImpl.isExistsByUniqueCol(reqData)) {
+			//一意チェックですでにある場合
+			throw new ResidenceException(ValidationMessageEnum.ApartResidenceUniqueError.getM());
+		}
+		
 		// リクエストをEntityにマッピング
 		ApartResidencesEntity reqEntity = modelMapper.map(reqData, ApartResidencesEntity.class);
 		// 登録処理
 		reqEntity = rep.save(reqEntity);
 		// レスポンスの定義
-		ApartResidenceRes resDto = new ApartResidenceRes();
-		resDto.setApartResidienceId(reqEntity.getApartResidenceId());
-		return resDto;
+		ApartResidenceRes res = new ApartResidenceRes();
+		res.setApartResidienceId(reqEntity.getApartResidenceId());
+		return res;
 	}
 
 	/**
@@ -51,10 +61,23 @@ public class ApartResidenceService {
 	public ApartResidenceRes update(CommonReq reqBody){
 		
 		ApartResidenceReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartResidenceReq.class);
+		
+		if(readImpl.isExistsByUniqueColNotEqId(reqData, reqBody.getId())) {
+			//一意チェックですでにある場合
+			throw new ResidenceException(ValidationMessageEnum.ApartResidenceUniqueError.getM());
+		}
+		
+		ApartResidencesEntity select = readImpl.existCheckAndGetById(reqBody.getId());
+		LocalDateTime registAt = select.getRegistAt();
+		
 		// リクエストをEntityにマッピング
 		ApartResidencesEntity reqEntity = modelMapper.map(reqData, ApartResidencesEntity.class);
 		// IDをセット
 		reqEntity.setApartResidenceId(reqBody.getId());
+		
+		//登録日時だけ独自セット
+		reqEntity.setRegistAt(registAt);
+		
 		// 更新処理
 		reqEntity = rep.save(reqEntity);
 		// レスポンスの定義
@@ -65,10 +88,16 @@ public class ApartResidenceService {
 	 * apart_residencesテーブルへの削除用メソッド
 	 * 
 	 * @param targetId
+	 * @return 
 	 * @throws ResidenceException
 	 */
-	public void delete(Integer targetId){
-		// 削除処理
-		rep.deleteById(targetId);
+	public ApartResidenceRes delete(Integer reqId){
+		ApartResidencesEntity select = readImpl.existCheckAndGetById(reqId);
+		rep.delete(select);
+		
+		// レスポンスの定義
+		ApartResidenceRes res = new ApartResidenceRes();
+		res.setApartResidienceId(reqId);
+		return res;
 	}
 }

@@ -21,7 +21,7 @@ public class ApartResidencesEntity extends SystemDateEntityParts {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "apart_residences_apart_residence_id_seq")
 	@SequenceGenerator(name = "apart_residences_apart_residence_id_seq", sequenceName = "apart_residences_apart_residence_id_seq", allocationSize = 1)
-	private Integer ApartResidenceId;
+	private Integer apartResidenceId;
 
 	@Column(name = "consumer_id", nullable = false)
 	private Integer consumerId;
