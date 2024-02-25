@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url:  jdbc:postgresql://ah-postgres.cotg2onn7xlt.ap-northeast-1.rds.amazonaws.com:5432/apartowner
+    username: apartowner
+    password: apartowner
+    driverClassName: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      use_sql_comments: true
+    properties:
+      hibernate:
+        format_sql: true
+  jackson:
+   time-zone: Asia/Tokyo
+
+server:
+  port: 8082
+  servlet:
+    context-path: /apartowner
+
+  
+logging:
+  level:
+    org: 
+      hibernate:
+        SQL: debug
+      type:
+        descriptor:
+          sql: trace
+      springframework:
+        orm:
+          jpa: DEBUG
