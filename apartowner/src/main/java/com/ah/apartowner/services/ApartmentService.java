@@ -10,6 +10,7 @@ import java.util.Objects;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ah.apartowner.controllers.ApartmentController;
 import com.ah.apartowner.controllers.ApartownerController;
@@ -27,7 +28,6 @@ import com.ah.commonlib.BackUtil;
 import com.ah.commonlib.JsonConverter;
 import com.ah.commonlib.StringConverter;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
