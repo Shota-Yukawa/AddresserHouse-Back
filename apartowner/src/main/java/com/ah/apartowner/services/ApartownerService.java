@@ -47,7 +47,7 @@ public class ApartownerService {
 		
 		ApartownerReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
 		
-		if(readImpl.isExsitsByUniqueCol(reqData)) {
+		if(readImpl.isExistsByUniqueCol(reqData)) {
 			//一意チェックですでにある場合
 			throw new AapartownerException(ValidationMessageEnum.ApartownerUniqueError.getM());
 		}
@@ -74,7 +74,7 @@ public class ApartownerService {
 		
 		ApartownerReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartownerReq.class);
 
-		if (readImpl.isExsitsByUniqueColNotEqId(reqData, reqBody.getId())) {
+		if (readImpl.isExistsByUniqueColNotEqId(reqData, reqBody.getId())) {
 			//一意チェックですでにある場合
 			throw new AapartownerException(ValidationMessageEnum.ApartownerUniqueError.getM());
 		}

@@ -21,13 +21,13 @@ public class ApartmentReadRepositoryImpl extends ReadAbstractRepository<Apartmen
 	}
 
 	@Override
-	public boolean isExsitsByUniqueCol(ApartmentReq data) {
+	public boolean isExistsByUniqueCol(ApartmentReq data) {
 		List<ApartmentsEntity> results = super.jpaRepository.findByApartowner_ApartownerIdAndApartName(data.getApartownerId(), data.getApartName());
 		return CollectionUtils.isNotEmpty(results);
 	}
 
 	@Override
-	public boolean isExsitsByUniqueColNotEqId(ApartmentReq data, Integer id) {
+	public boolean isExistsByUniqueColNotEqId(ApartmentReq data, Integer id) {
 		List<ApartmentsEntity> results = super.jpaRepository.findByApartowner_ApartownerIdAndApartNameAndApartmentIdNot(data.getApartownerId(), data.getApartName(), id);
 		return CollectionUtils.isNotEmpty(results);
 	}

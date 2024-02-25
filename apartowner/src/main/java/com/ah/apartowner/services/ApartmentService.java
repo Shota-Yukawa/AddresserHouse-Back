@@ -27,7 +27,6 @@ import com.ah.commonlib.BackUtil;
 import com.ah.commonlib.JsonConverter;
 import com.ah.commonlib.StringConverter;
 
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -39,7 +38,6 @@ public class ApartmentService {
 	private final ModelMapper modelMapper;
 	private final ApartmentReadRepositoryImpl readImpl;
 	private final ApartownerReadRepositoryImpl apartownerReadImpl;
-	private final EntityManager entityManager;
 	private final JsonConverter jsonConverter;
 
 	/**
@@ -50,7 +48,7 @@ public class ApartmentService {
 	public ApartmentRes regist(CommonReq reqBody) {
 		//リクエストBeanにデシリアライズ
 		ApartmentReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartmentReq.class);
-		if (readImpl.isExsitsByUniqueCol(reqData)) {
+		if (readImpl.isExistsByUniqueCol(reqData)) {
 			//一意チェックですでにある場合
 			throw new AapartownerException(ValidationMessageEnum.ApartmentUniqueError.getM());
 		}
@@ -84,7 +82,7 @@ public class ApartmentService {
 		//リクエストBeanにデシリアライズ
 		ApartmentReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartmentReq.class);
 		
-		if (readImpl.isExsitsByUniqueColNotEqId(reqData, reqBody.getId())) {
+		if (readImpl.isExistsByUniqueColNotEqId(reqData, reqBody.getId())) {
 			//一意チェックですでにある場合
 			throw new AapartownerException(ValidationMessageEnum.ApartmentUniqueError.getM());
 		}
