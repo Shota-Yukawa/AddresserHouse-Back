@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ah.apartowner.controllers.ApartownerController;
 import com.ah.apartowner.datasource.entity.ApartownersEntity;
@@ -23,7 +24,6 @@ import com.ah.commonlib.BackUtil;
 import com.ah.commonlib.JsonConverter;
 import com.ah.commonlib.StringConverter;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -131,6 +131,11 @@ public class ApartownerService {
 							.getMWithParam(entry.getKey()));
 				}
 			}
+			//更新予定値の一意チェック
+			if (readImpl.isExistsByUniqueColNotEqIdForEntity(entity)) {
+				throw new AapartownerException(ValidationMessageEnum.ApartownerUniqueError.getM());
+			}
+			
 			rep.save(entity);
 		}
 		return reqBody;

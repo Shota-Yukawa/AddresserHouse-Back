@@ -28,7 +28,8 @@ public class ApartmentReadRepositoryImpl extends ReadAbstractRepository<Apartmen
 
 	@Override
 	public boolean isExistsByUniqueColNotEqId(ApartmentReq data, Integer id) {
-		List<ApartmentsEntity> results = super.jpaRepository.findByApartowner_ApartownerIdAndApartNameAndApartmentIdNot(data.getApartownerId(), data.getApartName(), id);
+		List<ApartmentsEntity> results = super.jpaRepository
+				.findByApartowner_ApartownerIdAndApartNameAndApartmentIdNot(data.getApartownerId(), data.getApartName(), id);
 		return CollectionUtils.isNotEmpty(results);
 	}
 
@@ -41,5 +42,11 @@ public class ApartmentReadRepositoryImpl extends ReadAbstractRepository<Apartmen
 		return selectOpt.get();
 	}
 	
-	
+	@Override
+	public boolean isExistsByUniqueColNotEqIdForEntity(ApartmentsEntity entity) {
+		List<ApartmentsEntity> results = super.jpaRepository
+				.findByApartowner_ApartownerIdAndApartNameAndApartmentIdNot(entity.getApartowner().getApartownerId(), entity.getApartName(), entity.getApartmentId());
+
+		return CollectionUtils.isNotEmpty(results);
+	}
 }

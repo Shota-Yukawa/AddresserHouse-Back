@@ -154,6 +154,10 @@ public class ApartmentService {
 							.getMWithParam(entry.getKey()));
 				}
 			}
+			//更新値の一意チェック
+			if (readImpl.isExistsByUniqueColNotEqIdForEntity(entity)) {
+				throw new AapartownerException(ValidationMessageEnum.ApartmentUniqueError.getM());
+			}
 			rep.save(entity);
 		}
 		return reqBody;

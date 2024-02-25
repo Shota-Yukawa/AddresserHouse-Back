@@ -44,5 +44,11 @@ public class ApartownerReadRepositoryImpl extends ReadAbstractRepository<Apartow
 		return selectOpt.get();
 	}
 
+	@Override
+	public boolean isExistsByUniqueColNotEqIdForEntity(ApartownersEntity entity) {
+		List<ApartownersEntity> results = super.jpaRepository
+				.findByApartownerNameAndEmailAndApartownerIdNot(entity.getApartownerName(), entity.getEmail(), entity.getApartownerId());
 
+		return CollectionUtils.isNotEmpty(results);
+	}
 }
