@@ -40,7 +40,7 @@ public class ApartResidenceController {
 	 * @throws ResidenceException
 	 */
 	@PutMapping("update")
-	public ApartResidenceRes updateApartResidence(@RequestBody CommonReq reqBody) throws ResidenceException {
+	public ApartResidenceRes updateApartResidence(@RequestBody CommonReq reqBody){
 		return apartResidenceService.update(reqBody);
 	}
 
@@ -51,7 +51,7 @@ public class ApartResidenceController {
 	 * @throws ResidenceException
 	 */
 	@DeleteMapping("delete")
-	public void deleteApartResidence(@RequestBody CommonReq reqBody) throws ResidenceException {
+	public void deleteApartResidence(@RequestBody CommonReq reqBody){
 		Integer targegtId = reqBody.getId();
 		apartResidenceService.delete(targegtId);
 	}

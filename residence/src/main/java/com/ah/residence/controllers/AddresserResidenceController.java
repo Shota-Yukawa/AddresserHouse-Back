@@ -42,7 +42,7 @@ public class AddresserResidenceController {
 	 * @throws ResidenceException
 	 */
 	@PutMapping("update")
-	public AddresserResidenceRes updateAddresserResidence(@RequestBody CommonReq reqBody) throws ResidenceException {
+	public AddresserResidenceRes updateAddresserResidence(@RequestBody CommonReq reqBody){
 		Integer targetId = reqBody.getId();
 		return addresserResidenceService.update(reqBody);
 	}
@@ -54,7 +54,7 @@ public class AddresserResidenceController {
 	 * @throws ResidenceException
 	 */
 	@DeleteMapping("delete")
-	public void deleteAddresserResidence(@RequestBody CommonReq reqBody) throws ResidenceException {
+	public void deleteAddresserResidence(@RequestBody CommonReq reqBody){
 		Integer targetId = reqBody.getId();
 		addresserResidenceService.delete(targetId);
 	}

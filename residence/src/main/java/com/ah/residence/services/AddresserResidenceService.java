@@ -46,7 +46,7 @@ public class AddresserResidenceService {
 	 * @return
 	 * @throws ResidenceException 該当データなし
 	 */
-	public AddresserResidenceRes update(CommonReq reqBody) throws ResidenceException {
+	public AddresserResidenceRes update(CommonReq reqBody) {
 		
 		AddresserResidenceReq reqData = jsonConverter.deserializeJson(reqBody.getData(), AddresserResidenceReq.class);
 		
@@ -65,7 +65,7 @@ public class AddresserResidenceService {
 	 * @param targetId
 	 * @throws ResidenceException
 	 */
-	public void delete(Integer targetId) throws ResidenceException {
+	public void delete(Integer targetId){
 		// 削除処理
 		rep.deleteById(targetId);
 	}

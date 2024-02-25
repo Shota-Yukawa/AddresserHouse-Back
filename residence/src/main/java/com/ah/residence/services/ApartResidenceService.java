@@ -48,7 +48,7 @@ public class ApartResidenceService {
 	 * @return
 	 * @throws ResidenceException 該当データなし
 	 */
-	public ApartResidenceRes update(CommonReq reqBody) throws ResidenceException {
+	public ApartResidenceRes update(CommonReq reqBody){
 		
 		ApartResidenceReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartResidenceReq.class);
 		// リクエストをEntityにマッピング
@@ -67,7 +67,7 @@ public class ApartResidenceService {
 	 * @param targetId
 	 * @throws ResidenceException
 	 */
-	public void delete(Integer targetId) throws ResidenceException {
+	public void delete(Integer targetId){
 		// 削除処理
 		rep.deleteById(targetId);
 	}
