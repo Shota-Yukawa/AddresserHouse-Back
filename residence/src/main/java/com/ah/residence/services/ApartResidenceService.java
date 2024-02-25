@@ -3,10 +3,12 @@ package com.ah.residence.services;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.ah.commonlib.JsonConverter;
 import com.ah.residence.datasource.entity.ApartResidencesEntity;
 import com.ah.residence.datasource.repository.ApartResidencesRepository;
 import com.ah.residence.exception.ResidenceException;
 import com.ah.residence.models.req.ApartResidenceReq;
+import com.ah.residence.models.req.CommonReq;
 import com.ah.residence.models.res.ApartResidenceRes;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ public class ApartResidenceService {
 
 	private final ApartResidencesRepository rep;
 	private final ModelMapper modelMapper;
+	private final JsonConverter jsonConverter;
 
 	/**
 	 * apart_residenceテーブルへの登録用メソッド
@@ -24,9 +27,11 @@ public class ApartResidenceService {
 	 * @param reqBody ApartResidenceReq型の登録データ
 	 * @return
 	 */
-	public ApartResidenceRes create(ApartResidenceReq reqBody) {
+	public ApartResidenceRes create(CommonReq reqBody) {
+		ApartResidenceReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartResidenceReq.class);
+		
 		// リクエストをEntityにマッピング
-		ApartResidencesEntity reqEntity = modelMapper.map(reqBody, ApartResidencesEntity.class);
+		ApartResidencesEntity reqEntity = modelMapper.map(reqData, ApartResidencesEntity.class);
 		// 登録処理
 		reqEntity = rep.save(reqEntity);
 		// レスポンスの定義
@@ -43,11 +48,13 @@ public class ApartResidenceService {
 	 * @return
 	 * @throws ResidenceException 該当データなし
 	 */
-	public ApartResidenceRes update(Integer targetId, ApartResidenceReq reqBody) throws ResidenceException {
+	public ApartResidenceRes update(CommonReq reqBody) throws ResidenceException {
+		
+		ApartResidenceReq reqData = jsonConverter.deserializeJson(reqBody.getData(), ApartResidenceReq.class);
 		// リクエストをEntityにマッピング
-		ApartResidencesEntity reqEntity = modelMapper.map(reqBody, ApartResidencesEntity.class);
+		ApartResidencesEntity reqEntity = modelMapper.map(reqData, ApartResidencesEntity.class);
 		// IDをセット
-		reqEntity.setApartResidenceId(targetId);
+		reqEntity.setApartResidenceId(reqBody.getId());
 		// 更新処理
 		reqEntity = rep.save(reqEntity);
 		// レスポンスの定義

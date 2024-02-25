@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ah.residence.exception.ResidenceException;
-import com.ah.residence.models.req.AddresserResidenceReq;
 import com.ah.residence.models.req.CommonReq;
 import com.ah.residence.models.res.AddresserResidenceRes;
 import com.ah.residence.services.AddresserResidenceService;
-import com.ah.residence.util.JsonConverter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,10 +27,10 @@ public class AddresserResidenceController {
 	 * @param reqBody CommonReq
 	 * @return
 	 */
-	@PostMapping("add")
+	@PostMapping("regist")
 	public AddresserResidenceRes addAddresserResidence(@RequestBody CommonReq reqBody) {
 		return addresserResidenceService
-				.create(JsonConverter.deserializeJson(reqBody.getData(), AddresserResidenceReq.class));
+				.create(reqBody);
 
 	}
 
@@ -46,8 +44,7 @@ public class AddresserResidenceController {
 	@PutMapping("update")
 	public AddresserResidenceRes updateAddresserResidence(@RequestBody CommonReq reqBody) throws ResidenceException {
 		Integer targetId = reqBody.getId();
-		return addresserResidenceService.update(targetId,
-				JsonConverter.deserializeJson(reqBody.getData(), AddresserResidenceReq.class));
+		return addresserResidenceService.update(reqBody);
 	}
 
 	/**

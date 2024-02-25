@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ah.residence.exception.ResidenceException;
-import com.ah.residence.models.req.ApartResidenceReq;
 import com.ah.residence.models.req.CommonReq;
 import com.ah.residence.models.res.ApartResidenceRes;
 import com.ah.residence.services.ApartResidenceService;
-import com.ah.residence.util.JsonConverter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,9 +27,9 @@ public class ApartResidenceController {
 	 * @param reqBody CommonReq
 	 * @return addresser_residence_id(主キー)のみ
 	 */
-	@PostMapping("add")
+	@PostMapping("regist")
 	public ApartResidenceRes addApartResidences(@RequestBody CommonReq reqBody) {
-		return apartResidenceService.create(JsonConverter.deserializeJson(reqBody.getData(), ApartResidenceReq.class));
+		return apartResidenceService.create(reqBody);
 	}
 
 	/**
@@ -43,9 +41,7 @@ public class ApartResidenceController {
 	 */
 	@PutMapping("update")
 	public ApartResidenceRes updateApartResidence(@RequestBody CommonReq reqBody) throws ResidenceException {
-		Integer targetId = reqBody.getId();
-		return apartResidenceService.update(targetId,
-				JsonConverter.deserializeJson(reqBody.getData(), ApartResidenceReq.class));
+		return apartResidenceService.update(reqBody);
 	}
 
 	/**
