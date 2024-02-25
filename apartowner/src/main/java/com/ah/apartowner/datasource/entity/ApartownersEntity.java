@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ah.apartowner.datasource.entity.parts.SystemDateEntityParts;
 import com.ah.apartowner.listener.tablesync.ApartownerListener;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -56,9 +57,11 @@ public class ApartownersEntity extends SystemDateEntityParts {
 	private String afterStreet;
 
 	// リレーションマッピング
+	@JsonIgnore
 	@OneToMany(mappedBy = "apartowner")
 	private List<ApartmentsEntity> apartments;
 
+	@JsonIgnore
 	@OneToOne(mappedBy = "apartowner")
 	private ApartownerContactsEntity apartownerContact;
 }
