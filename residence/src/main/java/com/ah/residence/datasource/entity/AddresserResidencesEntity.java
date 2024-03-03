@@ -1,9 +1,11 @@
 package com.ah.residence.datasource.entity;
 
 import com.ah.residence.datasource.entity.parts.SystemDateEntityParts;
+import com.ah.residence.lintener.tablesync.AddresserResidenceListener;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,6 +19,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @SequenceGenerator(name = "pkey_seq", sequenceName = "addresser_residences_addresser_residence_id_seq", allocationSize = 1)
+@EntityListeners(AddresserResidenceListener.class)
 public class AddresserResidencesEntity extends SystemDateEntityParts {
 
 	@Id
