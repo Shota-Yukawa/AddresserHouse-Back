@@ -16,11 +16,12 @@ import lombok.EqualsAndHashCode;
 @Table(name = "addresser_residences")
 @Data
 @EqualsAndHashCode(callSuper = false)
+@SequenceGenerator(name = "pkey_seq", sequenceName = "addresser_residences_addresser_residence_id_seq", allocationSize = 1)
 public class AddresserResidencesEntity extends SystemDateEntityParts {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "addresser_residences_addresser_residence_id_seq")
-	@SequenceGenerator(name = "addresser_residences_addresser_residence_id_seq", sequenceName = "addresser_residences_addresser_residence_id_seq", allocationSize = 1)
+	@Column(name = "addresser_residence_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pkey_seq")
 	private Integer addresserResidenceId;
 
 	@Column(name = "consumer_id", nullable = false)
