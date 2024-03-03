@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.ah.apartowner.datasource.entity.parts.SystemDateEntityParts;
+import com.ah.apartowner.listener.tablesync.ApartmentListener;
 import com.ah.commonlib.StringConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,6 +27,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @SequenceGenerator(name = "pkey_seq", sequenceName = "apartments_apartment_id_seq", allocationSize = 1)
+@EntityListeners(ApartmentListener.class)
 public class ApartmentsEntity extends SystemDateEntityParts {
 
 	@Id
