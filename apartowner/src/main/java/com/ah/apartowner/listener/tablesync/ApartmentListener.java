@@ -3,7 +3,7 @@ package com.ah.apartowner.listener.tablesync;
 import com.ah.apartowner.datasource.entity.ApartmentsEntity;
 import com.ah.commonlib.EntityUtil;
 import com.ah.tablesynclib.bean.TableSyncRequestBean;
-import com.ah.tablesynclib.rest.SyncRequestService;
+import com.ah.tablesynclib.rest.services.ApartownerSyncRequestService;
 
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PostRemove;
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ApartmentListener {
 
-	private SyncRequestService requestService;
+	private ApartownerSyncRequestService requestService;
 	
 	/**
 	 * [登録] apartmentsテーブルを、queryDBへのテーブル同期リクエストを行う。
