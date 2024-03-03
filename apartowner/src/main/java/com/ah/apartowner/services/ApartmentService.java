@@ -162,4 +162,15 @@ public class ApartmentService {
 		}
 		return reqBody;
 	}
+	
+	public ApartmentRes delete(Integer reqId) {
+		ApartmentsEntity select = readImpl.existCheckAndGetById(reqId);
+		rep.delete(select);
+		
+		//レスポンス
+		ApartmentRes res = new ApartmentRes();
+		res.setApartmentId(reqId);
+		return res;
+		
+	}
 }

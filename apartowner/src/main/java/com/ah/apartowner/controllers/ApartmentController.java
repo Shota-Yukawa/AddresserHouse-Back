@@ -71,4 +71,11 @@ public class ApartmentController {
 		}
 		return apartmentService.updatePart(reqBody);
 	}
+	
+	public ApartmentRes deleteApartment(@RequestBody CommonReq reqBody) {
+		if(Objects.isNull(reqBody.getId())) {
+			throw new AapartownerException(ValidationMessageEnum.RequestRequiredIdError.getM());
+		}
+		return apartmentService.delete(reqBody.getId());
+	}
 }
