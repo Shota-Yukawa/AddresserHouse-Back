@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("residence/addresser")
+@RequestMapping("addresser_residences")
 public class AddresserResidenceController {
 
 	private final AddresserResidenceService addresserResidenceService;

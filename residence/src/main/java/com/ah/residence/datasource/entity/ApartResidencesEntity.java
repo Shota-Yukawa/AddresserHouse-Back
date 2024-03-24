@@ -23,6 +23,7 @@ import lombok.EqualsAndHashCode;
 public class ApartResidencesEntity extends SystemDateEntityParts {
 
 	@Id
+	@Column(name = "apart_residence_id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pkey_seq")
 	private Integer apartResidenceId;
 

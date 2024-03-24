@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AddresserResidenceListener {
 
-	private ResidenceSyncRequestService requestService;
+	private final ResidenceSyncRequestService requestService;
 	
 	/**
 	 * [登録] addresser_residencesテーブルを、queryDBへのテーブル同期リクエストを行う。

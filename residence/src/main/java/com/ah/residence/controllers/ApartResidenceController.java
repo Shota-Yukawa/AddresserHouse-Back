@@ -18,7 +18,7 @@ import com.ah.residence.services.ApartResidenceService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("residence/apart")
+@RequestMapping("apart_residence")
 @RequiredArgsConstructor
 public class ApartResidenceController {
 
