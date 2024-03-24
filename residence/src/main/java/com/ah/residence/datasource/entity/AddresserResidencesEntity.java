@@ -1,9 +1,11 @@
 package com.ah.residence.datasource.entity;
 
 import com.ah.residence.datasource.entity.parts.SystemDateEntityParts;
+import com.ah.residence.lintener.tablesync.AddresserResidenceListener;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,11 +18,13 @@ import lombok.EqualsAndHashCode;
 @Table(name = "addresser_residences")
 @Data
 @EqualsAndHashCode(callSuper = false)
+@SequenceGenerator(name = "pkey_seq", sequenceName = "addresser_residences_addresser_residence_id_seq", allocationSize = 1)
+@EntityListeners(AddresserResidenceListener.class)
 public class AddresserResidencesEntity extends SystemDateEntityParts {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "addresser_residences_addresser_residence_id_seq")
-	@SequenceGenerator(name = "addresser_residences_addresser_residence_id_seq", sequenceName = "addresser_residences_addresser_residence_id_seq", allocationSize = 1)
+	@Column(name = "addresser_residence_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pkey_seq")
 	private Integer addresserResidenceId;
 
 	@Column(name = "consumer_id", nullable = false)

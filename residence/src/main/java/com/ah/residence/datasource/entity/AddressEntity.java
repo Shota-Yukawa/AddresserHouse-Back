@@ -1,16 +1,23 @@
 package com.ah.residence.datasource.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "address")
+@SequenceGenerator(name = "pkey_seq", sequenceName = "address_address_id_seq", allocationSize = 1)
+@Data
 public class AddressEntity {
 
     @Id
     @Column(name = "address_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_address_id_seq")
-    @SequenceGenerator(name = "address_address_id_seq",
-            sequenceName = "address_address_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pkey_seq")
     private Integer addressId;
 
     @Column(name = "prefecture_code")

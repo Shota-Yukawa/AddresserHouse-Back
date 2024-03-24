@@ -1,5 +1,7 @@
 package com.ah.residence.controllers;
 
+import java.util.Objects;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -8,11 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ah.residence.exception.ResidenceException;
-import com.ah.residence.models.req.AddresserResidenceReq;
+import com.ah.residence.message.ValidationMessageEnum;
 import com.ah.residence.models.req.CommonReq;
 import com.ah.residence.models.res.AddresserResidenceRes;
 import com.ah.residence.services.AddresserResidenceService;
-import com.ah.residence.util.JsonConverter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +23,11 @@ import lombok.RequiredArgsConstructor;
 public class AddresserResidenceController {
 
 	private final AddresserResidenceService addresserResidenceService;
+	
+	public final static String TABLE_NAME = "addresser_residences";
+	public final static String ENTITY_REL_FIELD_NAME = "addresserResidences";
+	public final static String PK_COLUMN_NAME = "addresser_residence_id";
+	public final static String PK_PROPERTY = TABLE_NAME + "." + PK_COLUMN_NAME;
 
 	/**
 	 * 登録用リクエストマッピング
@@ -29,10 +35,12 @@ public class AddresserResidenceController {
 	 * @param reqBody CommonReq
 	 * @return
 	 */
-	@PostMapping("add")
+	@PostMapping("regist")
 	public AddresserResidenceRes addAddresserResidence(@RequestBody CommonReq reqBody) {
-		return addresserResidenceService
-				.create(JsonConverter.deserializeJson(reqBody.getData(), AddresserResidenceReq.class));
+		if(Objects.nonNull(reqBody.getId())) {
+			throw new ResidenceException(ValidationMessageEnum.RequestNotRequiredIdError.getM());
+		}
+		return addresserResidenceService.create(reqBody);
 
 	}
 
@@ -44,10 +52,11 @@ public class AddresserResidenceController {
 	 * @throws ResidenceException
 	 */
 	@PutMapping("update")
-	public AddresserResidenceRes updateAddresserResidence(@RequestBody CommonReq reqBody) throws ResidenceException {
-		Integer targetId = reqBody.getId();
-		return addresserResidenceService.update(targetId,
-				JsonConverter.deserializeJson(reqBody.getData(), AddresserResidenceReq.class));
+	public AddresserResidenceRes updateAddresserResidence(@RequestBody CommonReq reqBody){
+		if(Objects.isNull(reqBody.getId())) {
+			throw new ResidenceException(ValidationMessageEnum.RequestRequiredIdError.getM());
+		}
+		return addresserResidenceService.update(reqBody);
 	}
 
 	/**
@@ -57,8 +66,10 @@ public class AddresserResidenceController {
 	 * @throws ResidenceException
 	 */
 	@DeleteMapping("delete")
-	public void deleteAddresserResidence(@RequestBody CommonReq reqBody) throws ResidenceException {
-		Integer targetId = reqBody.getId();
-		addresserResidenceService.delete(targetId);
+	public void deleteAddresserResidence(@RequestBody CommonReq reqBody){
+		if(Objects.isNull(reqBody.getId())) {
+			throw new ResidenceException(ValidationMessageEnum.RequestRequiredIdError.getM());
+		}
+		addresserResidenceService.delete(reqBody.getId());
 	}
 }
