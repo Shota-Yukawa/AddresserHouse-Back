@@ -7,12 +7,12 @@ import lombok.Data;
 @Data
 public class ApartResidenceReq {
 
-	@JsonProperty("apart_residence.consumer_id")
+	@JsonProperty("apart_residences.consumer_id")
 	private Integer consumerId;
 
-	@JsonProperty("apart_residence.apartment_id")
+	@JsonProperty("apart_residences.apartment_id")
 	private Integer apartmentId;
 
-	@JsonProperty("apart_residence.apart_room_id")
+	@JsonProperty("apart_residences.apart_room_id")
 	private Integer roomId;
 }
